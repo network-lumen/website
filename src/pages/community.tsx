@@ -1,13 +1,64 @@
 import Head from 'next/head'
 import Layout from '@/components/Layout'
 import { useState, useEffect } from 'react'
+import { explorers, endpoints } from '@/data/community'
 
 export default function Community() {
   const [mounted, setMounted] = useState(false)
+  const [activeTab, setActiveTab] = useState('RPC')
+  const [copiedUrl, setCopiedUrl] = useState<string | null>(null)
+  const [testResults, setTestResults] = useState<Record<string, any>>({})
+  const [isTesting, setIsTesting] = useState<Record<string, boolean>>({})
+
+  const testNode = async (url: string, type: string) => {
+    if (type !== 'RPC') return
+
+    setIsTesting(prev => ({ ...prev, [url]: true }))
+    setTestResults(prev => ({ ...prev, [url]: null })) // Reset result
+
+    try {
+      const response = await fetch(`${url}/status`)
+      const data = await response.json()
+      
+      if (data.result) {
+        setTestResults(prev => ({
+          ...prev,
+          [url]: {
+            earliest: data.result.sync_info.earliest_block_height,
+            latest: data.result.sync_info.latest_block_height,
+            tx_index: data.result.node_info?.other?.tx_index || 'unknown',
+            voting_power: data.result.validator_info?.voting_power || '0',
+            is_validator: parseInt(data.result.validator_info?.voting_power || '0') > 0,
+            network: data.result.node_info?.network,
+            ok: true
+          }
+        }))
+      }
+    } catch (error) {
+      console.error(error)
+      setTestResults(prev => ({ ...prev, [url]: { ok: false, error: 'Connection Failed / CORS' } }))
+    } finally {
+      setIsTesting(prev => ({ ...prev, [url]: false }))
+    }
+  }
+
+  const clearResult = (url: string) => {
+    setTestResults(prev => {
+      const newResults = { ...prev }
+      delete newResults[url]
+      return newResults
+    })
+  }
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const copyToClipboard = (url: string) => {
+    navigator.clipboard.writeText(url)
+    setCopiedUrl(url)
+    setTimeout(() => setCopiedUrl(null), 2000)
+  }
 
   const platforms = [
     {
@@ -34,21 +85,6 @@ export default function Community() {
       link: 'https://lumen-network.org',
       color: 'from-primary-500 to-accent-600',
     },
-  ]
-
-  const explorers = [
-    { name: 'ChainTools', url: 'https://explorer.chaintools.tech/lumen' },
-    { name: 'BlockSync', url: 'https://dashboard.blocksync.me/lumen' },
-    { name: 'MekongLabs', url: 'https://explorer.mekonglabs.com/lumen-mainnet' },
-    { name: 'OneNov', url: 'https://explorer.onenov.xyz/lumen' },
-    { name: 'WinScan', url: 'https://winscan.winsnip.xyz/lumen-mainnet' },
-    { name: 'DNSarz Ping', url: 'https://ping.dnsarz.xyz/Lumen' },
-    { name: 'Maouam', url: 'https://explorer.maouam.xyz/lumen-mainnet' },
-    { name: 'Astrostake', url: 'https://stake.astrostake.xyz/lumen' },
-    { name: 'Gombezzz', url: 'https://explorer.gombezzz.xyz/lumen-mainnet' },
-    { name: 'Node9x', url: 'https://explorer.node9x.com/lumen' },
-    { name: 'OV Explorer', url: 'https://ov-explorer.onenov.xyz/network/lumen' },
-    { name: 'UTSA Staking', url: 'https://exp.utsa.tech/lumen/staking' },
   ]
 
   return (
@@ -233,7 +269,7 @@ export default function Community() {
           </div>
 
           {/* Network Explorers */}
-          <div>
+          <div className="mb-24">
             <div className="text-center mb-16">
               <h2 className="text-5xl font-black text-slate-900 mb-6">
                 Network{' '}
@@ -268,6 +304,195 @@ export default function Community() {
                     </svg>
                   </div>
                 </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Network Endpoints */}
+          <div>
+            <div className="text-center mb-16">
+              <h2 className="text-5xl font-black text-slate-900 mb-6">
+                Network{' '}
+                <span className="bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+                  Endpoints
+                </span>
+              </h2>
+              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                Connect to Lumen Network through multiple providers
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              {/* Tabs */}
+              <div className="flex flex-wrap gap-3 mb-8 justify-center">
+                {endpoints.map((endpoint) => (
+                  <button
+                    key={endpoint.name}
+                    onClick={() => setActiveTab(endpoint.name)}
+                    className={`px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${
+                      activeTab === endpoint.name
+                        ? 'bg-gradient-to-r from-primary-600 to-accent-600 text-white shadow-lg shadow-primary-500/30 scale-105'
+                        : 'bg-white border-2 border-slate-200 text-slate-700 hover:border-primary-300 hover:shadow-md'
+                    }`}
+                  >
+                    {endpoint.name}
+                  </button>
+                ))}
+              </div>
+
+              {/* Tab Content */}
+              {endpoints.map((endpoint) => (
+                <div
+                  key={endpoint.name}
+                  className={`transition-all duration-500 ${
+                    activeTab === endpoint.name ? 'opacity-100' : 'opacity-0 hidden'
+                  }`}
+                >
+                  <div className="bg-white rounded-3xl border-2 border-slate-200 p-8 shadow-xl">
+                    <div className="flex items-start gap-4 mb-6 pb-6 border-b border-slate-200">
+                      <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-accent-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <svg className="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-3xl font-black text-slate-900 mb-2">{endpoint.name}</h3>
+                        <p className="text-slate-600">{endpoint.description}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      {endpoint.items.map((item, j) => (
+                        <div key={j} className="group relative bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:bg-slate-100 transition-all duration-300 hover:shadow-md">
+                          <div className="flex items-center justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-3 mb-2">
+                                <span className="px-3 py-1 bg-primary-100 text-primary-700 rounded-lg text-xs font-bold uppercase">
+                                  {item.provider}
+                                </span>
+                                {testResults[item.url]?.ok && (
+                                  <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-[10px] font-bold uppercase">
+                                    Active
+                                  </span>
+                                )}
+                              </div>
+                              <code className="text-base text-slate-900 font-mono break-all block">{item.url}</code>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              {/* Test Button */}
+                              {activeTab === 'RPC' && (
+                                <>
+                                  {testResults[item.url] ? (
+                                    <button
+                                      onClick={() => clearResult(item.url)}
+                                      className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-500 border-2 border-slate-200 hover:border-red-300 hover:text-red-500 hover:bg-red-50 transition-all"
+                                    >
+                                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                                      </svg>
+                                      Clear
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={() => testNode(item.url, activeTab)}
+                                      disabled={isTesting[item.url]}
+                                      className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
+                                        isTesting[item.url] 
+                                          ? 'bg-slate-200 text-slate-400 cursor-wait' 
+                                          : 'bg-white border-2 border-slate-200 text-slate-600 hover:border-primary-300 hover:text-primary-600'
+                                      }`}
+                                    >
+                                      {isTesting[item.url] ? (
+                                        <>
+                                          <svg className="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                          </svg>
+                                          Testing...
+                                        </>
+                                      ) : (
+                                        <>
+                                          ⚡ Test
+                                        </>
+                                      )}
+                                    </button>
+                                  )}
+                                </>
+                              )}
+
+                              {/* Copy Button */}
+                              <button
+                                onClick={() => copyToClipboard(item.url)}
+                                className="flex-shrink-0 w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-primary-50 hover:border-primary-300 transition-all duration-300"
+                                title="Copy to clipboard"
+                              >
+                                {copiedUrl === item.url ? (
+                                  <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                ) : (
+                                  <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                  </svg>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* RESULT PANEL */}
+                          {testResults[item.url] && testResults[item.url].ok && (
+                            <div className="mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 md:grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2">
+                              <div>
+                                <div className="text-xs text-slate-500 font-medium mb-1">Block Height</div>
+                                <div className="text-sm font-mono font-bold text-slate-800">
+                                  {parseInt(testResults[item.url].latest).toLocaleString()}
+                                </div>
+                                <div className="text-[10px] text-slate-400">
+                                  Earliest: {parseInt(testResults[item.url].earliest).toLocaleString()}
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <div className="text-xs text-slate-500 font-medium mb-1">Tx Index</div>
+                                <div className={`text-sm font-bold uppercase ${
+                                  testResults[item.url].tx_index === 'on' ? 'text-green-600' : 'text-red-500'
+                                }`}>
+                                  {testResults[item.url].tx_index}
+                                </div>
+                              </div>
+
+                              <div>
+                                <div className="text-xs text-slate-500 font-medium mb-1">Validator Node?</div>
+                                <div className={`text-sm font-bold ${
+                                  testResults[item.url].is_validator ? 'text-primary-600' : 'text-slate-600'
+                                }`}>
+                                  {testResults[item.url].is_validator ? 'YES' : 'NO'}
+                                </div>
+                              </div>
+
+                              {testResults[item.url].is_validator && (
+                                <div>
+                                  <div className="text-xs text-slate-500 font-medium mb-1">Voting Power</div>
+                                  <div className="text-sm font-mono font-bold text-slate-800">
+                                    {parseInt(testResults[item.url].voting_power).toLocaleString()}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* ERROR MESSAGE */}
+                          {testResults[item.url] && !testResults[item.url].ok && (
+                            <div className="mt-3 text-xs text-red-500 font-medium px-2 py-1 bg-red-50 rounded">
+                              Failed to fetch status. Possibly CORS restricted by the node.
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
