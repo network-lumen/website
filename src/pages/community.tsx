@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout from '@/components/Layout'
 import { useState, useEffect } from 'react'
-import { explorers, endpoints } from '@/data/community'
+import { explorers, endpoints, tools } from '@/data/community'
 
 export default function Community() {
   const [mounted, setMounted] = useState(false)
@@ -265,6 +265,52 @@ export default function Community() {
                   </div>
                 </div>
               </a>
+            </div>
+          </div>
+
+          {/* Community Tools */}
+          <div className="mb-24">
+            <div className="text-center mb-16">
+              <h2 className="text-5xl font-black text-slate-900 mb-6">
+                Community{' '}
+                <span className="bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+                  Tools
+                </span>
+              </h2>
+              <p className="text-xl text-slate-600">
+                Useful tools built and maintained by the community
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {tools.map((tool, i) => (
+                <a
+                  key={i}
+                  href={tool.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative p-8 rounded-2xl bg-white border border-slate-200 hover:border-accent-300 transition-all duration-300 hover:shadow-xl hover:shadow-accent-500/10 hover:-translate-y-1"
+                >
+                  <div className="w-14 h-14 mb-5 bg-gradient-to-br from-accent-100 to-primary-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <svg className="w-7 h-7 text-accent-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.553-.832L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 13L9 7"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">{tool.name}</h3>
+                  <p className="text-sm text-slate-600 mb-4">{tool.description}</p>
+                  <div className="flex items-center gap-2 text-accent-600 font-medium text-sm">
+                    <span>Open Tool</span>
+                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </a>
+              ))}
             </div>
           </div>
 

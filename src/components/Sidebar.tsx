@@ -32,6 +32,7 @@ export default function Sidebar({ docs, currentSlug }: SidebarProps) {
                   <li key={doc.slug}>
                     <Link
                       href={`/docs/${doc.slug}`}
+                      prefetch={false}
                       className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
                         currentSlug === doc.slug
                           ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30'
