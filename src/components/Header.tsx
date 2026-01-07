@@ -34,7 +34,7 @@ export default function Header() {
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
         <div className="flex w-full items-center justify-between py-3">
           <div className="flex items-center gap-4">
-            <Link href="/" className="group flex items-center gap-3 hover:scale-105 transition-transform duration-300">
+            <Link href="/" prefetch={false} className="group flex items-center gap-3 hover:scale-105 transition-transform duration-300">
               <div className="relative w-10 h-10">
                 <img 
                   src="/logo.png" 
@@ -70,6 +70,7 @@ export default function Header() {
                 <Link
                   key={item.title}
                   href={item.href}
+                  prefetch={false}
                   className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200"
                 >
                   {item.title}
@@ -126,6 +127,7 @@ export default function Header() {
                   <Link
                     key={item.title}
                     href={item.href}
+                    prefetch={false}
                     className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-800 rounded-lg transition-all"
                     onClick={() => setMobileMenuOpen(false)}
                   >

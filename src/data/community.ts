@@ -11,6 +11,7 @@ export const explorers = [
   { name: 'Node9x', url: 'https://explorer.node9x.com/lumen' },
   { name: 'OV Explorer', url: 'https://ov-explorer.onenov.xyz/network/lumen' },
   { name: 'UTSA Staking', url: 'https://exp.utsa.tech/lumen/staking' },
+  { name: 'STAVR', url: 'https://explorer.stavr.tech/Lumen-Mainnet/staking' },
 ]
 
 export const endpoints = [
@@ -47,4 +48,8 @@ export const endpoints = [
       { provider: 'MekongLabs', url: 'lumen-mainnet-grpc.mekonglabs.tech:35090' }
     ],
   },
+]
+
+export const tools = [
+  { name: 'STAVR Decentralization Map', description: 'Decentralization map', url: 'https://tools.stavr.tech/Map/lumenm/' },
 ]
