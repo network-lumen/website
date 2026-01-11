@@ -328,29 +328,119 @@ export default function Community() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {explorers.map((explorer, i) => (
-                <a
-                  key={i}
-                  href={explorer.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative p-8 rounded-2xl bg-white border border-slate-200 hover:border-primary-300 transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/10 hover:-translate-y-1"
-                >
-                  <div className="w-14 h-14 mb-5 bg-gradient-to-br from-primary-100 to-accent-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg className="w-7 h-7 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+            <div className="max-w-5xl mx-auto">
+              {/* Stats Banner */}
+              <div className="grid grid-cols-3 gap-4 mb-8">
+                <div className="bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl p-6 text-center text-white shadow-xl shadow-primary-500/20">
+                  <div className="text-4xl font-black">{explorers.length}</div>
+                  <div className="text-primary-100 text-sm font-medium mt-1">Total Explorers</div>
+                </div>
+                <div className="bg-gradient-to-br from-accent-500 to-accent-600 rounded-2xl p-6 text-center text-white shadow-xl shadow-accent-500/20">
+                  <div className="text-4xl font-black">24/7</div>
+                  <div className="text-accent-100 text-sm font-medium mt-1">Availability</div>
+                </div>
+                <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-center text-white shadow-xl shadow-emerald-500/20">
+                  <div className="text-4xl font-black">Mainnet</div>
+                  <div className="text-emerald-100 text-sm font-medium mt-1">Network Status</div>
+                </div>
+              </div>
+
+              {/* Explorer Table */}
+              <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl shadow-slate-200/50 overflow-hidden">
+                {/* Table Header */}
+                <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-8 py-5">
+                  <div className="grid grid-cols-12 gap-4 items-center">
+                    <div className="col-span-1 text-center text-xs font-bold text-slate-400 uppercase tracking-wider">#</div>
+                    <div className="col-span-3 text-xs font-bold text-slate-400 uppercase tracking-wider">Provider</div>
+                    <div className="col-span-5 text-xs font-bold text-slate-400 uppercase tracking-wider">Endpoint URL</div>
+                    <div className="col-span-1 text-center text-xs font-bold text-slate-400 uppercase tracking-wider">Status</div>
+                    <div className="col-span-2 text-center text-xs font-bold text-slate-400 uppercase tracking-wider">Action</div>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">{explorer.name}</h3>
-                  <div className="flex items-center gap-2 text-primary-600 font-medium text-sm">
-                    <span>View Explorer</span>
-                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
+                </div>
+                
+                {/* Table Body */}
+                <div className="divide-y divide-slate-100">
+                  {explorers.map((explorer, i) => (
+                    <div
+                      key={i}
+                      className={`grid grid-cols-12 gap-4 px-8 py-5 items-center transition-all duration-300 hover:bg-gradient-to-r hover:from-primary-50 hover:via-white hover:to-accent-50 group cursor-pointer ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}
+                    >
+                      {/* Number */}
+                      <div className="col-span-1 text-center">
+                        <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 text-slate-600 font-bold text-sm group-hover:from-primary-500 group-hover:to-accent-500 group-hover:text-white transition-all duration-300 shadow-sm">
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                      </div>
+                      
+                      {/* Provider Name */}
+                      <div className="col-span-3">
+                        <div className="flex items-center gap-4">
+                          <div className="w-11 h-11 bg-gradient-to-br from-primary-100 to-accent-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:from-primary-500 group-hover:to-accent-500 transition-all duration-300 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/20 group-hover:scale-110">
+                            <svg className="w-5 h-5 text-primary-600 group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <span className="font-bold text-slate-900 group-hover:text-primary-600 transition-colors">{explorer.name}</span>
+                            <div className="text-xs text-slate-400 mt-0.5">Block Explorer</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* URL */}
+                      <div className="col-span-5">
+                        <div className="flex items-center gap-2 bg-slate-100 group-hover:bg-white rounded-xl px-4 py-2.5 transition-all duration-300 border border-transparent group-hover:border-slate-200">
+                          <svg className="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                          </svg>
+                          <span className="text-sm text-slate-600 font-mono truncate">{explorer.url.replace('https://', '')}</span>
+                        </div>
+                      </div>
+                      
+                      {/* Status */}
+                      <div className="col-span-1 text-center">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                          </span>
+                          Live
+                        </span>
+                      </div>
+                      
+                      {/* Action Button */}
+                      <div className="col-span-2 text-center">
+                        <a
+                          href={explorer.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-500 to-accent-500 text-white text-sm font-bold rounded-xl hover:shadow-xl hover:shadow-primary-500/30 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
+                        >
+                          <span>Explore</span>
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Table Footer */}
+                <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-8 py-4 border-t border-slate-200">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-slate-500">
+                      Showing <span className="font-bold text-slate-700">{explorers.length}</span> explorer providers
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-500">
+                      <svg className="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span>All endpoints verified</span>
+                    </div>
                   </div>
-                </a>
-              ))}
+                </div>
+              </div>
             </div>
           </div>
 
