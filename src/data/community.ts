@@ -12,6 +12,12 @@ export const explorers = [
   { name: 'OV Explorer', url: 'https://ov-explorer.onenov.xyz/network/lumen' },
   { name: 'UTSA Staking', url: 'https://exp.utsa.tech/lumen/staking' },
   { name: 'STAVR', url: 'https://explorer.stavr.tech/Lumen-Mainnet/staking' },
+  { name: 'Indonode', url: 'https://explorer.indonode.net/lumen/' },
+  { name: 'Veriznode', url: 'https://explorer.veriznode.xyz/lumen-testnet' },
+]
+
+export const guides = [
+  { name: 'Indonode Guide', description: 'Complete Lumen setup guide', url: 'https://beta.indonode.net/networks/lumen' },
 ]
 
 export const endpoints = [
@@ -23,8 +29,10 @@ export const endpoints = [
         { provider: 'Chaintools', url: 'https://rpc.lumen.chaintools.tech'},
         { provider: 'BlockSync', url: 'https://lumen.blocksync.me/rpc' },
         { provider: 'MekongLabs', url: 'https://lumen-mainnet-rpc.mekonglabs.tech' },
+        { provider: 'MekongLabs 2', url: 'https://lumen-mainnet-rpc.mekonglabs.com' },
         { provider: 'Node9x', url: 'https://lumen-rpc.node9x.com' },
-        { provider: 'UTSA', url: 'https://m-lumen.rpc.utsa.tech' }
+        { provider: 'UTSA', url: 'https://m-lumen.rpc.utsa.tech' },
+        { provider: 'OneNov', url: 'https://rpc-lumen.onenov.xyz' }
     ],
   },
   {
@@ -52,4 +60,5 @@ export const endpoints = [
 
 export const tools = [
   { name: 'STAVR Decentralization Map', description: 'Decentralization map', url: 'https://tools.stavr.tech/Map/lumenm/' },
+  { name: 'Indonode Guide', description: 'Complete Lumen setup guide', url: 'https://beta.indonode.net/networks/lumen' },
 ]
