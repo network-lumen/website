@@ -77,14 +77,13 @@ export default function Header() {
                 </Link>
               )
             ))}
-            <a
-              href="https://github.com/network-lumen/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-2 px-5 py-2 text-sm font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/30"
+            <Link
+              href="/downloads"
+              prefetch={false}
+              className="ml-2 px-5 py-2 text-sm font-extrabold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/30"
             >
-              Get Started
-            </a>
+              Download beta
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -135,14 +134,14 @@ export default function Header() {
                   </Link>
                 )
               ))}
-              <a
-                href="https://github.com/network-lumen/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-5 py-3 text-sm font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg transition-all duration-200 text-center mt-2"
+              <Link
+                href="/downloads"
+                prefetch={false}
+                className="px-5 py-3 text-sm font-extrabold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg transition-all duration-200 text-center mt-2"
+                onClick={() => setMobileMenuOpen(false)}
               >
-                Get Started
-              </a>
+                Download beta
+              </Link>
             </div>
           </div>
         )}
