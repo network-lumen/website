@@ -13,6 +13,8 @@ const navigation: NavItem[] = [
   { title: 'Community', href: '/community' },
 ]
 
+const LUMEN_WEB_STORE_URL = 'https://chromewebstore.google.com/detail/lumen-wallet/lfinoahnjndcbgjjfnaefcmpaglglbph'
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -24,6 +26,12 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const handleOpenWallet = () => {
+    if (typeof window === 'undefined') return
+    window.open(LUMEN_WEB_STORE_URL, '_blank', 'noopener,noreferrer')
+    setMobileMenuOpen(false)
+  }
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -77,6 +85,13 @@ export default function Header() {
                 </Link>
               )
             ))}
+            <button
+              type="button"
+              onClick={handleOpenWallet}
+              className="ml-2 px-5 py-2 text-sm font-extrabold text-cyan-200 bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 hover:border-cyan-400/50 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/20"
+            >
+              Get Wallet Extension
+            </button>
             <Link
               href="/downloads"
               prefetch={false}
@@ -134,6 +149,13 @@ export default function Header() {
                   </Link>
                 )
               ))}
+              <button
+                type="button"
+                onClick={handleOpenWallet}
+                className="px-5 py-3 text-sm font-extrabold text-cyan-100 bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 rounded-lg transition-all duration-200 text-center mt-2"
+              >
+                Get Wallet Extension
+              </button>
               <Link
                 href="/downloads"
                 prefetch={false}
