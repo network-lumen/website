@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2000)
+    }, 800)
 
     return () => clearTimeout(timer)
   }, [])
@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       {isLoading && <LoadingScreen />}
-      <div className={isLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}>
+      <div className={isLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-200'}>
         <Component {...pageProps} />
       </div>
     </>
