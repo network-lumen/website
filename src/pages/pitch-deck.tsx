@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Layout from '@/components/Layout'
 
 type VisualType =
@@ -20,6 +20,7 @@ type DeckSlide = {
   number: string
   eyebrow: string
   title: string
+  takeaway: string
   bullets: string[]
   visual: VisualType
   accent: string
@@ -29,11 +30,12 @@ const slides: DeckSlide[] = [
   {
     number: '01',
     eyebrow: 'Cover / Hook',
-    title: 'LumenStack: the decentralized internet stack',
+    title: 'The browser layer for a decentralized internet',
+    takeaway: 'LumenStack turns decentralized infrastructure into a product people can actually open.',
     bullets: [
-      'Browser, gateways, blockchain and wallet in one usable product',
-      'Built for censorship resistance',
-      'Verifiable access and mainstream crypto UX',
+      'Native browser, wallet, gateway network and Cosmos chain in one stack',
+      'Built for censorship-resistant access and verifiable content',
+      'Designed for mainstream crypto UX, not protocol-only adoption',
     ],
     visual: 'cover',
     accent: 'cyan',
@@ -41,13 +43,14 @@ const slides: DeckSlide[] = [
   {
     number: '02',
     eyebrow: 'Current Traction',
-    title: 'Live infrastructure, not just a whitepaper',
+    title: 'Execution is already visible on-chain and in product',
+    takeaway: 'The network is live, validators are operating, and the browser beta creates a real distribution wedge.',
     bullets: [
       '2.5M+ blocks produced',
       '40+ validators securing the network',
       'Founder voting power ~15%',
       'Native browser beta shipped',
-      'Public GitHub ecosystem: browser, blockchain, SDK, gateway',
+      'Public GitHub ecosystem across browser, blockchain, SDK and gateways',
     ],
     visual: 'traction',
     accent: 'emerald',
@@ -55,12 +58,13 @@ const slides: DeckSlide[] = [
   {
     number: '03',
     eyebrow: 'The Problem',
-    title: 'The decentralized web still has centralized access points',
+    title: 'Web3 still enters through Web2 choke points',
+    takeaway: 'The protocols may be decentralized, but the user journey is still controlled by centralized doors.',
     bullets: [
       'Web still depends on centralized DNS, browsers, hosting and app stores',
       'Decentralized apps route back through centralized gateways',
-      'Crypto UX too technical for mainstream',
-      'Infrastructure projects are fragmented',
+      'Crypto UX is still too technical for mainstream users',
+      'Infrastructure is fragmented across tools users never asked for',
     ],
     visual: 'problem',
     accent: 'rose',
@@ -68,12 +72,13 @@ const slides: DeckSlide[] = [
   {
     number: '04',
     eyebrow: 'The Solution - Full Stack',
-    title: 'One integrated stack for decentralized access',
+    title: 'Lumen owns the full access path',
+    takeaway: 'The product is the stack: browser, wallet, gateways and chain reinforce each other.',
     bullets: [
       'Native browser for decentralized web access',
       'IPFS gateway network for content availability',
       'Cosmos-SDK blockchain for settlement, domains, governance',
-      'Wallet + gasless flows embedded',
+      'Embedded wallet and gasless flows reduce onboarding friction',
     ],
     visual: 'stack',
     accent: 'sky',
@@ -81,13 +86,14 @@ const slides: DeckSlide[] = [
   {
     number: '05',
     eyebrow: 'Technology Differentiators',
-    title: 'Technical moats across security, UX and distribution',
+    title: 'A moat built across every layer of the user path',
+    takeaway: 'Lumen is hard to copy because the edge is architectural, not a single feature.',
     bullets: [
-      'Post-quantum-ready dual-signing',
-      'Gasless transaction flows',
-      'Native browser, not only an extension',
-      'IPFS gateway agents tied to incentives',
-      'On-chain verification for domains and routing',
+      'Post-quantum-ready dual-signing for future-proof security',
+      'Gasless transaction flows for Web2-level onboarding',
+      'Native browser distribution instead of extension-only UX',
+      'IPFS gateway agents tied to network incentives',
+      'On-chain verification for domains, routing and integrity',
     ],
     visual: 'moats',
     accent: 'amber',
@@ -95,12 +101,13 @@ const slides: DeckSlide[] = [
   {
     number: '06',
     eyebrow: 'Tokenomics & Utility $LMN',
-    title: '$LMN coordinates the network economy',
+    title: '$LMN is the coordination asset for decentralized access',
+    takeaway: 'The token has utility where the network has work: security, gateways, domains and governance.',
     bullets: [
-      'Coordinates validators, gateways and governance',
-      'Staking, network security, domains, parameters',
-      'Gateway incentives',
-      'Governance on emissions, fees, grants',
+      'Secures the chain through validator staking',
+      'Coordinates gateway incentives and content availability',
+      'Powers domains, routing parameters and network governance',
+      'Steers emissions, fees, grants and protocol priorities',
     ],
     visual: 'token',
     accent: 'violet',
@@ -108,12 +115,13 @@ const slides: DeckSlide[] = [
   {
     number: '07',
     eyebrow: 'Roadmap 2026',
-    title: 'From beta product to ecosystem distribution',
+    title: '2026 converts infrastructure into distribution',
+    takeaway: 'The next phase is product polish, gateway scale, developer adoption and market access.',
     bullets: [
-      'Q1: Harden browser beta and wallet UX',
-      'Q2: Expand gateway operators',
-      'Q3: Developer tooling and SDKs',
-      'Q4: Ecosystem growth and exchange readiness',
+      'Q1: Harden browser beta, wallet UX and release pipeline',
+      'Q2: Expand gateway operators and reliability metrics',
+      'Q3: Ship developer tooling, SDKs and domain workflows',
+      'Q4: Drive ecosystem growth and exchange readiness',
     ],
     visual: 'roadmap',
     accent: 'cyan',
@@ -121,12 +129,12 @@ const slides: DeckSlide[] = [
   {
     number: '08',
     eyebrow: 'Market & Opportunity',
-    title: 'The access layer for crypto infrastructure',
+    title: 'Every decentralized network needs an access layer',
+    takeaway: 'Lumen is the user-facing gateway into Web3 infrastructure.',
     bullets: [
-      'Need for consumer-grade decentralized access',
-      'DePIN + storage need better distribution',
-      'Post-quantum becoming critical',
-      'Intersection: browser + wallet + gateway + chain',
+      'Web3 access is still fragmented',
+      'DePIN and storage need distribution',
+      'Wallet UX needs native context',
     ],
     visual: 'market',
     accent: 'emerald',
@@ -134,12 +142,13 @@ const slides: DeckSlide[] = [
   {
     number: '09',
     eyebrow: 'Governance & Team',
-    title: 'Credible decentralization with engineering-led execution',
+    title: 'Lean execution with a credible decentralization path',
+    takeaway: 'The founder retains focus, while the validator base keeps the network from being a single-operator project.',
     bullets: [
       'Founder voting power ~15%',
       '40+ validators, already decentralized',
-      'Engineering-led execution',
-      'Community open',
+      'Engineering-led execution across browser, chain and gateways',
+      'Open community for validators, builders and early users',
     ],
     visual: 'governance',
     accent: 'sky',
@@ -147,11 +156,12 @@ const slides: DeckSlide[] = [
   {
     number: '10',
     eyebrow: 'The Ask',
-    title: 'Raising $200k-$500k to scale product and distribution',
+    title: 'Raising $200k-$500k to turn beta into momentum',
+    takeaway: 'Capital goes directly into the product and distribution bottlenecks that unlock the next stage.',
     bullets: [
       'Use of funds: browser dev, security, infrastructure, marketing',
-      'Priorities: product polish, growth, partnerships',
-      'Goal: stronger traction, clearer metrics, broader market access',
+      'Priorities: product polish, gateway growth and strategic partnerships',
+      'Goal: stronger traction, clearer metrics and broader market access',
     ],
     visual: 'ask',
     accent: 'amber',
@@ -159,11 +169,12 @@ const slides: DeckSlide[] = [
   {
     number: '11',
     eyebrow: 'Thank You',
-    title: 'Building the access layer for the decentralized internet',
+    title: 'Invest in the access layer of the decentralized internet',
+    takeaway: 'Lumen is building the browser-native path into Web3 infrastructure.',
     bullets: [
       'Live chain + validators + browser beta',
       'Full-stack infrastructure roadmap',
-      'Seeking aligned investors',
+      'Seeking aligned crypto, infrastructure and DePIN investors',
     ],
     visual: 'thanks',
     accent: 'cyan',
@@ -217,11 +228,21 @@ function ShellBox({ children, className = '' }: { children: React.ReactNode; cla
   )
 }
 
-function Node({ label, detail, accent = 'cyan' }: { label: string; detail?: string; accent?: string }) {
+function Node({
+  label,
+  detail,
+  accent = 'cyan',
+  centered = false,
+}: {
+  label: string
+  detail?: string
+  accent?: string
+  centered?: boolean
+}) {
   const styles = accentStyles[accent]
 
   return (
-    <div className={`rounded-md border ${styles.border} ${styles.soft} px-4 py-3`}>
+    <div className={`rounded-md border ${styles.border} ${styles.soft} px-4 py-3 ${centered ? 'text-center' : ''}`}>
       <div className={`text-sm font-black ${styles.text}`}>{label}</div>
       {detail ? <div className="mt-1 text-xs font-semibold text-slate-400">{detail}</div> : null}
     </div>
@@ -234,18 +255,19 @@ function Arrow() {
 
 function CoverVisual() {
   const nodes = [
-    { label: 'Browser', x: 'left-6 top-8', accent: 'cyan' },
-    { label: 'Wallet', x: 'right-6 top-10', accent: 'emerald' },
-    { label: 'IPFS', x: 'left-10 bottom-12', accent: 'amber' },
-    { label: 'Chain', x: 'right-8 bottom-10', accent: 'violet' },
+    { label: 'Native Browser', x: 'left-6 top-8', accent: 'cyan' },
+    { label: 'Wallet UX', x: 'right-6 top-10', accent: 'emerald' },
+    { label: 'IPFS Gateways', x: 'left-10 bottom-12', accent: 'amber' },
+    { label: 'Lumen Chain', x: 'right-8 bottom-10', accent: 'violet' },
   ]
 
   return (
     <div className="relative h-full min-h-[320px] overflow-hidden rounded-md border border-white/10 bg-slate-950">
       <div className="absolute inset-6 rounded-md border border-white/10" />
-      <div className="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-md border border-cyan-300/40 bg-cyan-300/10 p-4 text-center">
+      <div className="absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-md border border-cyan-300/40 bg-cyan-300/10 p-4 text-center shadow-2xl shadow-cyan-500/10">
         <img src="/logo.png" alt="Lumen Network" className="mx-auto h-14 w-14 rounded-full object-contain" />
         <div className="mt-3 text-sm font-black text-white">LumenStack</div>
+        <div className="mt-1 text-[10px] font-bold uppercase tracking-widest text-cyan-200">Access Layer</div>
       </div>
       <svg className="absolute inset-0 h-full w-full text-white/20" viewBox="0 0 500 340" fill="none">
         <path d="M95 70L250 170L405 76M102 270L250 170L400 268M95 70L102 270M405 76L400 268" stroke="currentColor" strokeWidth="2" />
@@ -300,7 +322,7 @@ function ProblemVisual() {
   return (
     <div className="flex h-full min-h-[320px] flex-col justify-center gap-4">
       {[
-        ['User', 'Browser'],
+        ['User', 'Default browser'],
         ['dApp', 'Centralized gateway'],
         ['Content', 'Hosting / app store'],
         ['Identity', 'DNS dependency'],
@@ -317,17 +339,19 @@ function ProblemVisual() {
 
 function StackVisual() {
   return (
-    <ShellBox className="flex h-full min-h-[320px] flex-col justify-center p-5">
-      <div className="grid grid-cols-1 gap-3">
+    <ShellBox className="flex h-full min-h-[320px] flex-col items-center justify-center p-5">
+      <div className="grid w-full max-w-md grid-cols-1 gap-3">
         {[
-          ['User', 'open the app'],
+          ['User', 'opens one product'],
           ['Native Browser', 'wallet + Lumen URLs'],
-          ['Gateway Network', 'IPFS access'],
-          ['Lumen Chain', 'settlement + governance'],
+          ['Gateway Network', 'content availability'],
+          ['Lumen Chain', 'domains + incentives'],
           ['IPFS Content', 'verifiable storage'],
         ].map(([label, detail], index) => (
-          <div key={label} className="flex items-center gap-3">
-            <Node label={label} detail={detail} accent={index % 2 === 0 ? 'sky' : 'cyan'} />
+          <div key={label} className="flex flex-col items-center gap-2">
+            <div className="w-full">
+              <Node label={label} detail={detail} accent={index % 2 === 0 ? 'sky' : 'cyan'} centered />
+            </div>
             {index < 4 ? <div className="text-xl font-black text-slate-500">↓</div> : null}
           </div>
         ))}
@@ -338,9 +362,9 @@ function StackVisual() {
 
 function MoatsVisual() {
   const moats = [
-    ['PQC', 'dual-signing'],
-    ['Gasless', 'low-friction UX'],
-    ['Browser', 'native surface'],
+    ['PQC', 'future-proof signing'],
+    ['Gasless', 'consumer onboarding'],
+    ['Browser', 'owned distribution'],
     ['Gateways', 'incentivized access'],
     ['On-chain', 'verified routing'],
   ]
@@ -360,14 +384,14 @@ function MoatsVisual() {
 function TokenVisual() {
   return (
     <div className="relative h-full min-h-[320px] rounded-md border border-white/10 bg-slate-950 p-6">
-      <div className="absolute left-1/2 top-1/2 grid h-28 w-28 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-violet-300/50 bg-violet-300/10 text-2xl font-black text-white">
+      <div className="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-violet-200/70 bg-[radial-gradient(circle_at_35%_25%,rgba(255,255,255,0.35),rgba(167,139,250,0.22)_34%,rgba(15,23,42,0.96)_72%)] text-base font-black text-white shadow-2xl shadow-violet-500/30 ring-8 ring-violet-300/10">
         $LMN
       </div>
       <div className="grid h-full grid-cols-2 gap-4">
         <Node label="Validators" detail="staking + security" accent="violet" />
         <Node label="Gateways" detail="availability incentives" accent="emerald" />
-        <Node label="Domains" detail="names + routing" accent="cyan" />
-        <Node label="Governance" detail="fees + grants" accent="amber" />
+        <Node label="Domains" detail="names + routing parameters" accent="cyan" />
+        <Node label="Governance" detail="emissions + grants" accent="amber" />
       </div>
     </div>
   )
@@ -375,20 +399,26 @@ function TokenVisual() {
 
 function RoadmapVisual() {
   const quarters = [
-    ['Q1', 'Browser beta', 'Wallet UX'],
-    ['Q2', 'Gateways', 'Operators'],
-    ['Q3', 'SDKs', 'Dev tooling'],
-    ['Q4', 'Growth', 'Exchange ready'],
+    ['Q1', 'Product hardening', 'Browser + wallet'],
+    ['Q2', 'Network expansion', 'Gateway operators'],
+    ['Q3', 'Developer adoption', 'SDKs + domains'],
+    ['Q4', 'Market access', 'Growth + liquidity'],
   ]
 
   return (
-    <div className="flex h-full min-h-[320px] items-center">
-      <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-4">
+    <div className="flex h-full min-h-[320px] items-center justify-center">
+      <div className="grid w-full max-w-lg grid-cols-1 gap-3">
         {quarters.map(([q, title, detail]) => (
           <ShellBox key={q} className="p-4">
-            <div className="mb-8 text-xs font-black text-cyan-300">{q}</div>
-            <div className="text-lg font-black text-white">{title}</div>
-            <div className="mt-2 text-sm font-semibold text-slate-400">{detail}</div>
+            <div className="grid grid-cols-[56px_1fr] items-center gap-4">
+              <div className="grid h-12 w-12 place-items-center rounded-md border border-cyan-300/40 bg-cyan-300/10 text-sm font-black text-cyan-200">
+                {q}
+              </div>
+              <div>
+                <div className="text-lg font-black text-white">{title}</div>
+                <div className="mt-1 text-sm font-semibold text-slate-400">{detail}</div>
+              </div>
+            </div>
           </ShellBox>
         ))}
       </div>
@@ -398,21 +428,29 @@ function RoadmapVisual() {
 
 function MarketVisual() {
   return (
-    <div className="relative h-full min-h-[320px] rounded-md border border-white/10 bg-slate-950">
-      <div className="absolute left-[8%] top-[18%] grid h-40 w-40 place-items-center rounded-full border border-cyan-300/40 bg-cyan-300/10 text-center text-sm font-black text-cyan-200">
-        Web3 access
+    <div className="relative h-full min-h-[320px] overflow-hidden rounded-md border border-white/10 bg-slate-950 p-6">
+      <svg className="absolute inset-0 z-0 h-full w-full text-white/18" viewBox="0 0 520 340" fill="none">
+        <path d="M96 58L260 170M424 58L260 170M96 282L260 170M424 282L260 170" stroke="currentColor" strokeWidth="2" />
+      </svg>
+
+      <div className="absolute left-1/2 top-1/2 z-20 grid h-40 w-40 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-emerald-300/50 bg-[radial-gradient(circle_at_35%_25%,rgba(52,211,153,0.24),#0f172a_58%,#020617_100%)] text-center shadow-2xl shadow-emerald-500/20">
+        <div>
+          <div className="text-2xl font-black text-white">Lumen</div>
+          <div className="mt-1 text-[10px] font-black uppercase tracking-widest text-emerald-200">Access Layer</div>
+        </div>
       </div>
-      <div className="absolute right-[10%] top-[16%] grid h-40 w-40 place-items-center rounded-full border border-emerald-300/40 bg-emerald-300/10 text-center text-sm font-black text-emerald-200">
-        DePIN + storage
+
+      <div className="absolute left-8 top-8 z-10">
+        <Node label="Web3 apps" accent="cyan" />
       </div>
-      <div className="absolute bottom-[13%] left-[26%] grid h-44 w-44 place-items-center rounded-full border border-amber-300/40 bg-amber-300/10 text-center text-sm font-black text-amber-200">
-        Wallet + browser
+      <div className="absolute right-8 top-8 z-10">
+        <Node label="DePIN" accent="emerald" />
       </div>
-      <div className="absolute bottom-[12%] right-[22%] grid h-40 w-40 place-items-center rounded-full border border-violet-300/40 bg-violet-300/10 text-center text-sm font-black text-violet-200">
-        PQ security
+      <div className="absolute bottom-8 left-8 z-10">
+        <Node label="Storage" accent="amber" />
       </div>
-      <div className="absolute left-1/2 top-1/2 grid h-24 w-32 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-md bg-white text-center text-sm font-black text-slate-950">
-        Lumen
+      <div className="absolute bottom-8 right-8 z-10">
+        <Node label="Wallets" accent="violet" />
       </div>
     </div>
   )
@@ -420,27 +458,31 @@ function MarketVisual() {
 
 function GovernanceVisual() {
   return (
-    <div className="grid h-full min-h-[320px] grid-cols-1 gap-4">
-      <ShellBox className="p-5">
-        <div className="mb-4 flex items-end justify-between">
-          <div>
-            <div className="text-xs font-black uppercase tracking-widest text-slate-500">Founder VP</div>
-            <div className="mt-1 text-4xl font-black text-sky-300">~15%</div>
-          </div>
+    <div className="flex h-full min-h-[320px] items-center justify-center">
+      <ShellBox className="flex min-h-[300px] w-full max-w-2xl flex-col justify-between p-6">
+        <div>
+          <div className="text-xs font-black uppercase tracking-widest text-slate-500">Voting power profile</div>
+          <div className="mt-4 flex items-end justify-between gap-4">
+            <div>
+              <div className="text-sm font-bold text-slate-400">Founder VP</div>
+              <div className="mt-1 text-5xl font-black text-sky-300">~15%</div>
+            </div>
             <div className="text-right">
-              <div className="text-xs font-black uppercase tracking-widest text-slate-500">Validators</div>
-            <div className="mt-1 text-4xl font-black text-white">40+</div>
+              <div className="text-sm font-bold text-slate-400">Network validators</div>
+              <div className="mt-1 text-5xl font-black text-white">40+</div>
+            </div>
           </div>
         </div>
-        <div className="h-3 overflow-hidden rounded-full bg-slate-800">
-          <div className="h-full w-[15%] bg-sky-300" />
+        <div>
+          <div className="mb-2 flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-500">
+            <span>Founder</span>
+            <span>Distributed validator set</span>
+          </div>
+          <div className="h-4 overflow-hidden rounded-full bg-slate-800">
+            <div className="h-full w-[15%] bg-sky-300" />
+          </div>
         </div>
       </ShellBox>
-      <div className="grid grid-cols-4 gap-3">
-        {Array.from({ length: 8 }).map((_, index) => (
-          <div key={index} className="h-14 rounded-md border border-white/10 bg-white/[0.04]" />
-        ))}
-      </div>
     </div>
   )
 }
@@ -479,8 +521,8 @@ function ThanksVisual() {
       <img src="/logo.png" alt="Lumen Network" className="h-24 w-24 rounded-full object-contain" />
       <div>
         <div className="mt-6 text-3xl font-black text-white">Lumen Network</div>
-        <div className="mt-3 text-sm font-bold text-slate-400">network-lumen.github.io</div>
-        <div className="mt-1 text-sm font-bold text-cyan-300">github.com/network-lumen</div>
+        <div className="mt-3 text-sm font-bold text-slate-300">The browser-native access layer for Web3 infrastructure.</div>
+        <div className="mt-4 text-sm font-bold text-cyan-300">github.com/network-lumen</div>
       </div>
     </ShellBox>
   )
@@ -519,6 +561,20 @@ export default function PitchDeck() {
   const goToSlide = (index: number) => {
     setCurrentSlide(Math.max(0, Math.min(slides.length - 1, index)))
   }
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        setCurrentSlide((index) => Math.max(0, index - 1))
+      }
+      if (event.key === 'ArrowRight') {
+        setCurrentSlide((index) => Math.min(slides.length - 1, index + 1))
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   const current = slides[currentSlide]
 
@@ -615,7 +671,7 @@ export default function PitchDeck() {
                   <article
                     key={slide.number}
                     id={`slide-${slide.number}`}
-                    className="deck-slide w-full flex-none overflow-hidden rounded-md border border-white/10 bg-[#0d111b] shadow-2xl shadow-black/30"
+                    className="deck-slide w-full flex-none overflow-hidden rounded-md border border-white/10 bg-[radial-gradient(circle_at_20%_0%,rgba(34,211,238,0.08),transparent_32%),#0d111b] shadow-2xl shadow-black/30"
                   >
                     <div className="grid min-h-[640px] grid-cols-1 lg:aspect-[16/9] lg:min-h-0 lg:grid-cols-[0.92fr_1.08fr]">
                       <div className="flex flex-col justify-between border-b border-white/10 p-6 sm:p-9 lg:border-b-0 lg:border-r">
@@ -633,6 +689,14 @@ export default function PitchDeck() {
                           <h2 className="max-w-xl text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
                             {slide.title}
                           </h2>
+                          <div className={`mt-6 rounded-md border ${styles.border} ${styles.soft} p-4`}>
+                            <div className={`text-xs font-black uppercase tracking-widest ${styles.text}`}>
+                              Investment thesis
+                            </div>
+                            <p className="mt-2 text-sm font-bold leading-relaxed text-slate-100">
+                              {slide.takeaway}
+                            </p>
+                          </div>
                         </div>
 
                         <ul className="mt-10 space-y-4">
