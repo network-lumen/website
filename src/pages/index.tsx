@@ -298,6 +298,48 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Investors Section */}
+      <section className="relative py-16 sm:py-24 bg-slate-100 overflow-hidden">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-8 lg:items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 bg-cyan-100 border border-cyan-200 rounded-full mb-4 sm:mb-6">
+                <span className="flex h-2 w-2 rounded-full bg-cyan-600"></span>
+                <span className="text-xs font-black text-cyan-900 uppercase tracking-widest">For Investors</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4 sm:mb-6">
+                A complete decentralized internet stack with live traction.
+              </h2>
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-8">
+                Lumen combines a browser beta, IPFS gateways, a Cosmos-SDK chain, gasless transaction flows, and post-quantum-ready security into one product surface.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link href="/investors" className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-slate-950 hover:bg-slate-800 text-white rounded-xl font-black text-sm transition-colors">
+                  View investor page
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              {[
+                { value: '3M+', label: 'blocks' },
+                { value: '44', label: 'validators' },
+                { value: '15%', label: 'founder VP' },
+                { value: 'Beta', label: 'browser live' },
+              ].map((item) => (
+                <div key={item.label} className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+                  <div className="text-3xl sm:text-4xl font-black text-slate-950">{item.value}</div>
+                  <div className="mt-2 text-sm font-bold text-slate-500 uppercase tracking-wide">{item.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="relative py-16 sm:py-24 lg:py-32 bg-white overflow-hidden">
         <div className="absolute inset-0 bg-mesh opacity-20"></div>

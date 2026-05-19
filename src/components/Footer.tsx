@@ -62,6 +62,12 @@ export default function Footer() {
                   Community
                 </a>
               </li>
+              <li>
+                <a href="/investors" className="text-sm text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-slate-600 rounded-full group-hover:bg-cyan-400 transition-colors"></span>
+                  For Investors
+                </a>
+              </li>
             </ul>
           </div>
 
