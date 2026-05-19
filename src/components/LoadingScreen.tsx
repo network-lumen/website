@@ -8,13 +8,13 @@ export default function LoadingScreen() {
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) return 100
-        return prev + 2
+        return prev + 5
       })
-    }, 30)
+    }, 25)
 
     const timer = setTimeout(() => {
       setIsVisible(false)
-    }, 2000)
+    }, 800)
 
     return () => {
       clearTimeout(timer)
