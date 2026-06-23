@@ -48,7 +48,7 @@ const slides: DeckSlide[] = [
     bullets: [
       '2.5M+ blocks produced',
       '40+ validators securing the network',
-      'Founder voting power ~15%',
+      'Founder voting power 0%',
       'Native browser beta shipped',
       'Public GitHub ecosystem across browser, blockchain, SDK and gateways',
     ],
@@ -145,7 +145,7 @@ const slides: DeckSlide[] = [
     title: 'Lean execution with a credible decentralization path',
     takeaway: 'The founder retains focus, while the validator base keeps the network from being a single-operator project.',
     bullets: [
-      'Founder voting power ~15%',
+      'Founder voting power 0%',
       '40+ validators, already decentralized',
       'Engineering-led execution across browser, chain and gateways',
       'Open community for validators, builders and early users',

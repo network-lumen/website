@@ -57,6 +57,12 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a href="https://discord.gg/DwK6V9shKc" className="text-sm text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-2 group" target="_blank" rel="noopener noreferrer">
+                  <span className="w-1 h-1 bg-slate-600 rounded-full group-hover:bg-cyan-400 transition-colors"></span>
+                  Discord
+                </a>
+              </li>
+              <li>
                 <a href="/community" className="text-sm text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-2 group">
                   <span className="w-1 h-1 bg-slate-600 rounded-full group-hover:bg-cyan-400 transition-colors"></span>
                   Community
