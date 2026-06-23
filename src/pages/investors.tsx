@@ -5,7 +5,7 @@ import Layout from '@/components/Layout'
 const traction = [
   { value: '3M+', label: 'blocks produced' },
   { value: '44', label: 'validators' },
-  { value: '15%', label: 'founder voting power' },
+  { value: '0%', label: 'founder voting power' },
   { value: 'Beta', label: 'native browser live' },
 ]
 
@@ -168,7 +168,7 @@ export default function Investors() {
                     'Browser beta validates the consumer entry point.',
                     'Gasless flows reduce onboarding friction.',
                     'Post-quantum readiness positions security as infrastructure, not an afterthought.',
-                    'Founder voting power at 15% supports a more credible governance story.',
+                    'Founder voting power at 0% supports a more credible governance story.',
                   ].map((item) => (
                     <div key={item} className="flex gap-3 rounded-2xl bg-slate-50 p-4">
                       <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-cyan-600" fill="currentColor" viewBox="0 0 20 20">
