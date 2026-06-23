@@ -11,6 +11,7 @@ const navigation: NavItem[] = [
   { title: 'Docs', href: '/docs' },
   { title: 'For Investors', href: '/investors' },
   { title: 'Pitch Deck', href: '/pitch-deck' },
+  { title: 'Metrics', href: '/metrics' },
   { title: 'GitHub', href: 'https://github.com/network-lumen/', external: true },
   { title: 'Community', href: '/community' },
 ]
@@ -54,7 +55,7 @@ export default function Header() {
               </div>
               <div>
                 <div className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
-                  Lumen Network
+                  Lumen
                 </div>
                 <div className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Decentralized Web</div>
               </div>
@@ -99,7 +100,7 @@ export default function Header() {
               prefetch={false}
               className="ml-2 px-5 py-2 text-sm font-extrabold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/30"
             >
-              Download beta
+              Download Browser
             </Link>
           </div>
 
@@ -164,7 +165,7 @@ export default function Header() {
                 className="px-5 py-3 text-sm font-extrabold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg transition-all duration-200 text-center mt-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Download beta
+                Download Browser
               </Link>
             </div>
           </div>
