@@ -9,14 +9,6 @@ const REST_PROVIDERS = [
   { name: 'MekongLabs', url: 'https://lumen-mainnet-api.mekonglabs.com' },
 ]
 
-const GITHUB_REPOS = [
-  'network-lumen/blockchain',
-  'network-lumen/browser',
-  'network-lumen/integrations',
-  'network-lumen/gateway-agent',
-  'network-lumen/validator-kit',
-]
-
 const FETCH_TIMEOUT_MS = 5500
 
 type NetworkMetrics = {
@@ -41,16 +33,11 @@ type GatewayStatus = {
   latencyMs?: number
 }
 
-type GithubMetrics = {
-  stars: number
-  repos: number
-}
 
 type DashboardState = {
   network: NetworkMetrics | null
   validator: ValidatorMetrics | null
   gateways: GatewayStatus[]
-  github: GithubMetrics | null
   loading: boolean
   updatedAt: string | null
 }
@@ -59,7 +46,6 @@ const initialState: DashboardState = {
   network: null,
   validator: null,
   gateways: [],
-  github: null,
   loading: true,
   updatedAt: null,
 }
@@ -176,11 +162,10 @@ export default function Metrics() {
     let cancelled = false
 
     async function loadMetrics() {
-      const [latestBlock, validators, supply, validator, gateways, githubRepos] = await Promise.allSettled([
+      const [latestBlock, validators, supply, gateways] = await Promise.allSettled([
         fetchFromAnyRest<{ block: { header: { height: string } } }>('/cosmos/base/tendermint/v1beta1/blocks/latest'),
         fetchFromAnyRest<{ validators: unknown[] }>('/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED&pagination.limit=200'),
         fetchFromAnyRest<{ amount: { amount: string } }>('/cosmos/bank/v1beta1/supply/by_denom?denom=ulmn'),
-
         Promise.all(
           REST_PROVIDERS.map(async (provider) => {
             const startedAt = performance.now()
@@ -206,12 +191,7 @@ export default function Metrics() {
               }
             }
           }),
-        ),
-        Promise.allSettled(
-          GITHUB_REPOS.map((repo) =>
-            fetchJson<{ stargazers_count: number }>(`https://api.github.com/repos/${repo}`),
-          ),
-        ),
+        )
       ])
 
       if (cancelled) return
@@ -219,40 +199,21 @@ export default function Metrics() {
       const blockResult = latestBlock.status === 'fulfilled' ? latestBlock.value : null
       const validatorsResult = validators.status === 'fulfilled' ? validators.value : null
       const supplyResult = supply.status === 'fulfilled' ? supply.value : null
-      const validatorResult = validator.status === 'fulfilled' ? validator.value : null
-      const gatewayResult = gateways.status === 'fulfilled' ? gateways.value : []
-      const githubResult = githubRepos.status === 'fulfilled' ? githubRepos.value : []
-      const githubSuccesses = githubResult.filter((result) => result.status === 'fulfilled')
+      const gatewayResult = gateways.status === 'fulfilled' ? gateways.value : [];
+
 
       setState({
         network:
-          blockResult && validatorsResult && supplyResult
+          blockResult && supplyResult
             ? {
                 blockHeight: Number(blockResult.data.block.header.height),
-                activeValidators: validatorsResult.data.validators.length,
+                activeValidators: validatorsResult?.data.validators.length,
                 totalSupply: Number(supplyResult.data.amount.amount) / 1_000_000,
                 source: blockResult.source,
               }
             : null,
-        validator: validatorResult
-          ? {
-              status: validatorResult.data.validator.status,
-              tokens: Number(validatorResult.data.validator.tokens) / 1_000_000,
-              commission: Number(validatorResult.data.validator.commission.commission_rates.rate),
-              source: validatorResult.source,
-            }
-          : null,
+        validator: null,
         gateways: gatewayResult,
-        github:
-          githubSuccesses.length > 0
-            ? {
-                repos: githubSuccesses.length,
-                stars: githubSuccesses.reduce((total, result) => {
-                  if (result.status !== 'fulfilled') return total
-                  return total + result.value.stargazers_count
-                }, 0),
-              }
-            : null,
         loading: false,
         updatedAt: new Date().toLocaleString('en-US', {
           dateStyle: 'medium',
@@ -350,13 +311,6 @@ export default function Metrics() {
               live
               accent="amber"
             />
-            <MetricCard
-              label="GitHub stars"
-              value={state.github ? `${state.github.stars}` : state.loading ? 'Loading' : 'Unavailable'}
-              detail={state.github ? `Aggregated across ${state.github.repos} public repositories.` : 'GitHub API did not respond.'}
-              live
-              accent="violet"
-            />
           </div>
         </section>
 
@@ -402,10 +356,10 @@ export default function Metrics() {
 
             <div className="rounded-md border border-white/10 bg-[#0d111b] p-5">
               <div className="text-xs font-black uppercase tracking-widest text-slate-500">Data policy</div>
-              <h3 className="mt-2 text-2xl font-black text-white">Live where verifiable. Manual where honest.</h3>
+              <h3 className="mt-2 text-2xl font-black text-white">Live where verifiable</h3>
               <div className="mt-6 space-y-4">
                 {[
-                  ['Live', 'Blocks, validators, supply, gateway health, validator profile and GitHub stars.'],
+                  ['Live', 'Blocks, validators, supply, gateway health'],
                   ['Manual', 'DEX TVL and DEX volume until analytics and market feeds are confirmed.'],
                 ].map(([label, body]) => (
                   <div key={label} className="grid grid-cols-[72px_1fr] gap-4 border-t border-white/10 pt-4">
