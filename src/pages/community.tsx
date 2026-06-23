@@ -82,7 +82,7 @@ export default function Community() {
     {
       name: 'Website',
       description: 'Official resources',
-      link: 'https://lumen-network.org',
+      link: 'https://lumen-browser.com',
       color: 'from-primary-500 to-accent-600',
     },
   ]

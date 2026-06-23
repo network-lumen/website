@@ -227,7 +227,7 @@ export default function DocsIndex({ allDocs, categories }: DocsIndexProps) {
                     </a>
 
                     <a
-                      href="https://lumen-network.org"
+                      href="https://lumen-browser.com"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="group p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-105"
