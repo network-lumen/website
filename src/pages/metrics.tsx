@@ -17,8 +17,6 @@ const GITHUB_REPOS = [
   'network-lumen/validator-kit',
 ]
 
-const VALIDATOR_OPERATOR = 'lmnvaloper1rx9rkupw6j9rtvktx5dwpgxvzmwun680fjpct4'
-const VALIDATOR_ACCOUNT = 'lmn1rx9rkupw6j9rtvktx5dwpgxvzmwun6805qgezt'
 const FETCH_TIMEOUT_MS = 5500
 
 type NetworkMetrics = {
@@ -182,9 +180,7 @@ export default function Metrics() {
         fetchFromAnyRest<{ block: { header: { height: string } } }>('/cosmos/base/tendermint/v1beta1/blocks/latest'),
         fetchFromAnyRest<{ validators: unknown[] }>('/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED&pagination.limit=200'),
         fetchFromAnyRest<{ amount: { amount: string } }>('/cosmos/bank/v1beta1/supply/by_denom?denom=ulmn'),
-        fetchFromAnyRest<{ validator: { status: string; tokens: string; commission: { commission_rates: { rate: string } } } }>(
-          `/cosmos/staking/v1beta1/validators/${VALIDATOR_OPERATOR}`,
-        ),
+
         Promise.all(
           REST_PROVIDERS.map(async (provider) => {
             const startedAt = performance.now()
@@ -364,82 +360,8 @@ export default function Metrics() {
           </div>
         </section>
 
-        <section className="border-y border-white/10 bg-white/[0.03]">
-          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-            <div>
-              <SectionTitle
-                eyebrow="Validator Profile"
-                title="Validator-3 profile"
-                body="Your validator is shown as a first-class operating signal: bonded status, real stake and commission pulled from chain state."
-              />
-              <div className="rounded-md border border-white/10 bg-[#0d111b] p-5">
-                <div className="text-xs font-black uppercase tracking-widest text-slate-500">Operator address</div>
-                <div className="mt-3 break-all font-mono text-sm font-bold text-cyan-200">{VALIDATOR_OPERATOR}</div>
-                <div className="mt-5 text-xs font-black uppercase tracking-widest text-slate-500">Account address</div>
-                <div className="mt-3 break-all font-mono text-sm font-bold text-slate-300">{VALIDATOR_ACCOUNT}</div>
-              </div>
-            </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:self-end">
-              <MetricCard
-                label="Status"
-                value={state.validator ? formatStatus(state.validator.status) : state.loading ? 'Loading' : 'Unavailable'}
-                detail={state.validator ? `Live from ${state.validator.source}.` : 'Validator endpoint did not respond.'}
-                live
-                accent="emerald"
-              />
-              <MetricCard
-                label="Bonded tokens"
-                value={state.validator ? `${formatNumber(state.validator.tokens, 2)} LMN` : state.loading ? 'Loading' : 'Unavailable'}
-                detail="Validator stake currently bonded on-chain."
-                live
-                accent="cyan"
-              />
-              <MetricCard
-                label="Commission"
-                value={state.validator ? formatPercent(state.validator.commission) : state.loading ? 'Loading' : 'Unavailable'}
-                detail="Current validator commission rate."
-                live
-                accent="amber"
-              />
-            </div>
-          </div>
-        </section>
 
-        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-          <SectionTitle
-            eyebrow="Product & Market Signals"
-            title="Clear labels for non-public metrics"
-            body="Not every investor metric should be faked as live. DAU and DEX liquidity stay manual until there is a trusted analytics or DEX feed."
-          />
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <MetricCard
-              label="Browser DAU"
-              value="Private beta"
-              detail="No public DAU analytics feed is connected yet."
-              accent="slate"
-            />
-            <MetricCard
-              label="LMN DEX TVL"
-              value="Feed pending"
-              detail="Waiting for a reliable public LMN pool source before displaying TVL."
-              accent="slate"
-            />
-            <MetricCard
-              label="LMN DEX volume"
-              value="Feed pending"
-              detail="24h volume should be wired only after the target DEX/pair is confirmed."
-              accent="slate"
-            />
-            <MetricCard
-              label="Product status"
-              value="Browser beta"
-              detail="Native browser, wallet flow, gasless chain and PQC direction are active product signals."
-              accent="emerald"
-            />
-          </div>
-        </section>
 
         <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.1fr_0.9fr]">
@@ -484,8 +406,7 @@ export default function Metrics() {
               <div className="mt-6 space-y-4">
                 {[
                   ['Live', 'Blocks, validators, supply, gateway health, validator profile and GitHub stars.'],
-                  ['Manual', 'Browser DAU, DEX TVL and DEX volume until analytics and market feeds are confirmed.'],
-                  ['Next', 'Wire DAU from product telemetry and DEX metrics from the confirmed LMN pool.'],
+                  ['Manual', 'DEX TVL and DEX volume until analytics and market feeds are confirmed.'],
                 ].map(([label, body]) => (
                   <div key={label} className="grid grid-cols-[72px_1fr] gap-4 border-t border-white/10 pt-4">
                     <div className="text-sm font-black text-cyan-200">{label}</div>
