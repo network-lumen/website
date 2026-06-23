@@ -206,9 +206,9 @@ export default function Metrics() {
         network:
           blockResult && supplyResult
             ? {
-                blockHeight: Number(blockResult.data.block.header.height),
-                activeValidators: validatorsResult?.data.validators.length,
-                totalSupply: Number(supplyResult.data.amount.amount) / 1_000_000,
+                blockHeight: Number(blockResult.data.block.header.height) || 0,
+                activeValidators: validatorsResult?.data.validators.length || 0,
+                totalSupply: Number(supplyResult.data.amount.amount) / 1_000_000 || 0,
                 source: blockResult.source,
               }
             : null,
