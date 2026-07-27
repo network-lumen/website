@@ -118,7 +118,8 @@ export default function Downloads() {
   const assets = latest?.assets || []
   const downloadLinks = useMemo(() => {
     return {
-      windowsX64: findAsset(assets, /Lumen-Browser-Setup-.*-windows-x64\.exe$/i),
+      windowsX64: findAsset(assets, /Lumen-Browser-Setup-.*-windows-x64-signed\.exe$/i),
+
       linuxX64: findAsset(assets, /Lumen-Browser-.*-linux-x64\.AppImage$/i),
       macArm64: findAsset(assets, /Lumen-Browser-.*-mac-arm64\.dmg$/i),
       macX64: findAsset(assets, /Lumen-Browser-.*-mac-x64\.dmg$/i),
