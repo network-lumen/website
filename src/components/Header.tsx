@@ -9,8 +9,7 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   { title: 'Docs', href: '/docs' },
-  { title: 'For Investors', href: '/investors' },
-  { title: 'Pitch Deck', href: '/pitch-deck' },
+  { title: 'White Paper', href: '/docs/whitepaper' },
   { title: 'Metrics', href: '/metrics' },
   { title: 'GitHub', href: 'https://github.com/network-lumen/', external: true },
   { title: 'Community', href: '/community' },

@@ -27,10 +27,10 @@ export default function DocsIndex({ allDocs, categories }: DocsIndexProps) {
       color: 'from-blue-500 to-cyan-600',
     },
     {
-      icon: '⚙️',
-      title: 'Technical',
-      description: 'Dive deep into architecture, consensus, and blockchain specifications',
-      href: '/docs/technical',
+      icon: '📄',
+      title: 'White Paper',
+      description: 'Architecture, specifications, tokenomics, and governance in one document',
+      href: '/docs/whitepaper',
       color: 'from-purple-500 to-pink-600',
     },
     {

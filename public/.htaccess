@@ -2,6 +2,11 @@ Options -MultiViews
 
 RewriteEngine On
 
+# Permanent redirects for retired URLs, so old links and bookmarks keep working.
+# Relative targets keep these valid when deployed in a subdirectory.
+# /docs/technical was merged into the white paper.
+RewriteRule ^docs/technical/?$ docs/whitepaper/ [R=301,L]
+
 # Serve the exported Next.js 404 page with a proper 404 status.
 # Use a relative path so it also works when deployed in a subdirectory.
 ErrorDocument 404 404.html
