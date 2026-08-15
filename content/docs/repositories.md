@@ -51,7 +51,9 @@ npm install @lumen-chain/sdk
 
 ## Contributing
 
-See the blockchain contributing guide for repo conventions: https://github.com/network-lumen/blockchain/blob/master/CONTRIBUTING.md
+Contributions are welcome on any repository. Issues and pull requests are the entry point.
+
+For repo conventions and protocol details, start with the blockchain docs: https://github.com/network-lumen/blockchain/tree/master/docs
 
 ## License
 

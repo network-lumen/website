@@ -82,8 +82,8 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
             </li>
           ),
           table: ({ node, ...props }) => (
-            <div className="overflow-x-auto my-8 rounded-2xl border border-slate-200 shadow-lg">
-              <table className="min-w-full divide-y divide-slate-200" {...props} />
+            <div className="my-8 overflow-x-auto overscroll-x-contain rounded-2xl border border-slate-200 shadow-lg">
+              <table className="w-full divide-y divide-slate-200 text-left" {...props} />
             </div>
           ),
           thead: ({ node, ...props }) => (
@@ -96,10 +96,13 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
             <tr className="hover:bg-slate-50 transition-colors" {...props} />
           ),
           th: ({ node, ...props }) => (
-            <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase tracking-wider" {...props} />
+            <th
+              className="whitespace-nowrap px-4 py-3 text-left text-xs font-black uppercase tracking-wider text-slate-700"
+              {...props}
+            />
           ),
           td: ({ node, ...props }) => (
-            <td className="px-6 py-4 text-sm text-slate-700" {...props} />
+            <td className="px-4 py-3 align-top text-sm leading-relaxed text-slate-700 [overflow-wrap:anywhere]" {...props} />
           ),
         }}
       >

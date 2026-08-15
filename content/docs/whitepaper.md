@@ -68,15 +68,38 @@ A native desktop browser (currently in public beta) rather than a browser extens
 
 The browser is the distribution wedge for the rest of the stack. It is the layer a non-technical user interacts with, and the only layer they need to install.
 
+**Distribution and integrity.** The browser is distributed as self-hosted signed binaries, published through GitHub Releases on [network-lumen/browser](https://github.com/network-lumen/browser):
+
+| Platform | Artifact |
+| --- | --- |
+| Windows x64 | Signed installer (`.exe`) |
+| macOS (Apple Silicon) | `.dmg` (arm64) |
+| macOS (Intel) | `.dmg` (x64) |
+| Linux x64 | `.AppImage` |
+
+Every release ships a `SHA256SUMS.txt` manifest so users can verify integrity independently of the transport that delivered the file. Current builds and checksums are on the [downloads page](/downloads).
+
+Lumen deliberately does **not** distribute through app stores or OS package managers. Section 2 identifies app stores as one of the choke points the project exists to route around; shipping the browser through a gatekeeper that can review, delist, or require changes to how it resolves decentralized content would reintroduce that dependency at the most sensitive layer. Signed binaries plus published checksums give users a verifiable trust path that does not require a platform vendor to vouch for it.
+
 ### 4.2 Gateway Network
 
-A network of IPFS-aware gateway agents handling pinning, retrieval, routing, and content availability. Rather than depending on a single hosted endpoint, retrieval is spread across independently operated agents whose participation is tied to on-chain incentives.
+A network of IPFS-aware gateway agents handling pinning, retrieval, routing, and content availability. Rather than depending on a single hosted endpoint, retrieval is spread across independently operated agents.
 
 The gateway agent is open source and operable by anyone: [github.com/network-lumen/gateway-agent](https://github.com/network-lumen/gateway-agent)
 
+**Operator economics.** Gateway incentives are a market, not a protocol subsidy. There is no emission stream paying gateway operators and no network-set price schedule:
+
+1. **Operators set their own price.** Each gateway independently decides what it charges users for storage on a monthly basis. Operators compete on price, capacity, uptime, and geography rather than being rate-set by governance.
+2. **Users pay the operator directly** for the pinning capacity they consume.
+3. **Listing in the official browser is the second incentive.** An operator may apply to be listed in the browser's built-in gateway directory. Listing is granted after review, so it functions as a quality bar: meeting the operational standard earns access to the browser's distribution, which is the scarce resource in this network.
+
+This is a deliberate design choice. A protocol-set reward rate would require governance to continuously estimate the fair price of storage across every market and hardware profile — a forecasting problem that governance is poorly suited to solve and that ossifies quickly. Letting operators price their own capacity puts that discovery in the market, while the listing review keeps quality from racing to the bottom.
+
+The trade-off is honest: price competition alone does not guarantee availability for unpopular content, since no operator is obligated to serve it. The listing standard is what currently backstops that.
+
 ### 4.3 Lumen Chain
 
-A dedicated Cosmos SDK blockchain (chain id `lumen`) providing the settlement and coordination layer: validator security, domain registration and routing parameters, gateway incentives, and governance over network parameters.
+A dedicated Cosmos SDK blockchain (chain id `lumen`) providing the settlement and coordination layer: validator security, domain registration and routing parameters, cross-chain transfers over IBC, and governance over network parameters.
 
 The chain is not the product surface — it is the coordination substrate that makes the browser and gateway layers trustworthy without a central operator.
 
@@ -146,6 +169,37 @@ Linking a PQC key requires a minimum balance of `1000 ulmn`. An account can rece
 
 The rationale is migration risk. Retrofitting post-quantum signatures onto a chain with an established account base is a coordination problem with no clean solution. Requiring dual-signing from genesis means Lumen never has to run that migration.
 
+### 5.5 Interoperability (IBC)
+
+Lumen is IBC-enabled and currently maintains two transfer channels. Both are in `STATE_OPEN` and use the standard `transfer` port.
+
+| Counterparty | Chain ID | Lumen channel | Counterparty channel |
+| --- | --- | --- | --- |
+| Osmosis | `osmosis-1` | `channel-1` | `channel-109674` |
+| BeeZee | `beezee-1` | `channel-0` | `channel-10` |
+
+The corresponding light clients are `07-tendermint-1` (Osmosis) and `07-tendermint-0` (BeeZee).
+
+LMN therefore has a distinct IBC denomination on each counterparty chain, derived from the path it travelled.
+
+**LMN on Osmosis** — [asset page](https://app.osmosis.zone/assets/ibc/88DBE57372690630D2DD9779C247479CE124E777C5D695FA90699F3140CEC59F)
+
+```
+path:  transfer/channel-109674/ulmn
+denom: ibc/88DBE57372690630D2DD9779C247479CE124E777C5D695FA90699F3140CEC59F
+```
+
+**LMN on BeeZee** — [DEX market](https://dex.getbze.com/exchange/market?id=ibc/693DDB2D9B4260D67C8136C22D837F37488E0FBD81857D8E9C6022332EA26E33/ibc/6490A7EAB61059BFC1CDDEB05917DD70BDF3A611654162A1A47DB930D40D8AF4)
+
+```
+path:  transfer/channel-10/ulmn
+denom: ibc/693DDB2D9B4260D67C8136C22D837F37488E0FBD81857D8E9C6022332EA26E33
+```
+
+Each denom hash is the SHA-256 of its path, so either can be recomputed and verified independently rather than taken on trust.
+
+Channel state is queryable directly from any Lumen REST endpoint at `/ibc/core/channel/v1/channels`, which is the authoritative list should further channels open.
+
 ---
 
 ## 6. Tokenomics — $LMN
@@ -157,7 +211,7 @@ The rationale is migration risk. Retrofitting post-quantum signatures onto a cha
 `$LMN` is the coordination asset of the network. It has utility everywhere the network has work to do:
 
 - **Security.** Validators bond `$LMN`; delegators stake to validators. Bonded stake is what secures consensus.
-- **Gateway incentives.** Gateway operators are compensated for pinning, retrieval, and availability.
+- **Transfers and settlement.** LMN is the unit moved between users, gateway operators, and counterparty chains over IBC.
 - **Domains and routing.** Domain registration and routing parameters are settled on-chain.
 - **Governance.** Emissions, network parameters, grants, and protocol priorities are decided by stake-weighted vote.
 
@@ -226,7 +280,9 @@ These thresholds are deliberately strict. A 67% quorum and 75% pass threshold me
 
 ### 7.3 Scope and Limits of Governance
 
-Governance is deliberately bounded. The governed-parameters diagram above enumerates what the DAO controls — staking and distribution settings, the transfer tax and dust guard, gateway incentive rates, domain and routing parameters, and community pool spending.
+Governance is deliberately bounded. The governed-parameters diagram above enumerates what the DAO controls — staking and distribution settings, the transfer tax and dust guard, domain and routing parameters, and community pool spending.
+
+Note that gateway pricing is *not* on this list. As described in Section 4.2, operators set their own rates; governance does not fix the price of storage.
 
 What governance **cannot** touch is equally important:
 
@@ -237,7 +293,7 @@ What governance **cannot** touch is equally important:
 | `distribution_interval_blocks` | `supply_cap_lumn` |
 | Staking, distribution, gov params | `denom`, `decimals` |
 
-Monetary policy sits on the immutable side. Governance can tune how the network defends itself against spam and how rewards are routed, but it cannot mint beyond the cap, change the halving schedule, or redenominate the token. This is what makes the supply guarantee in §6.3 credible: it does not depend on the good behaviour of a future voter majority.
+Monetary policy sits on the immutable side. Governance can tune how the network defends itself against spam and how rewards are routed, but it cannot mint beyond the cap, change the halving schedule, or redenominate the token. This is what makes the supply guarantee in Section 6.3 credible: it does not depend on the good behaviour of a future voter majority.
 
 ---
 
@@ -258,7 +314,25 @@ The validator set is independently operated and geographically distributed. Vali
 
 ---
 
-## 9. Market and Positioning
+## 9. Near-Term Roadmap
+
+The following covers the next 6–12 months. It is scoped to work that follows directly from the current state of the network described in Section 8, and is intentionally short: items are listed because they are in progress or immediately next, not to project a multi-year vision.
+
+**Browser — from beta to stable.** The browser is the primary user surface and currently ships as a public beta. Priority is release stability, wallet UX, and the update pipeline across all four supported platform targets. Exiting beta is the gate for broader distribution.
+
+**Gateway network — operator growth and transparency.** Grow the set of independently operated gateways and publish availability and reliability data for listed operators, so the listing standard in Section 4.2 is legible to users rather than opaque.
+
+**Validator set — filling the remaining slots.** 42 of 100 slots are active. Continued validator onboarding directly improves the security and decentralization properties the network claims.
+
+**Interoperability — additional IBC channels.** Two transfer channels are open today. Additional counterparties extend where LMN can settle and where Lumen-hosted content can be paid for.
+
+**Developer surface — tooling and domains.** SDK improvements and domain registration workflows, so third parties can build against the access layer rather than only consume it.
+
+> **Note:** targets in this section are directional, not contractual. Delivery order is subject to change, and nothing here is a commitment to a specific date.
+
+---
+
+## 10. Market and Positioning
 
 Every decentralized network eventually faces the same bottleneck: users have to reach it. Storage networks, DePIN projects, and application chains all produce infrastructure that ultimately needs a user-facing door — and today that door is a centralized browser and a hosted gateway.
 
@@ -266,22 +340,40 @@ Lumen is not competing with those networks; it is the access layer they lack. Th
 
 The differentiators are architectural rather than featural, which is what makes them difficult to replicate piecemeal:
 
-- **Native browser distribution** instead of extension-only integration
+- **Native browser distribution** outside app stores, verified by signed binaries and published checksums
 - **Post-quantum-ready dual-signing** required at the protocol level
 - **No gas market** as a chain property, not an application-level subsidy
-- **Incentivized gateway agents** tied to on-chain economics
+- **Market-priced gateway agents** with a curated listing standard rather than a governance-set rate
 - **On-chain verification** for domains, routing, and content integrity
 - **Genesis-locked monetary policy** that governance cannot revise
 
 ---
 
-## 10. Ecosystem and Source Code
+## 11. Core Development and Source Code
+
+### 11.1 Core Development
+
+Lumen is developed and maintained through ongoing contributions to its open-source repositories. Core development covers protocol engineering, infrastructure, cryptography, and Lumen Browser development.
+
+Development happens in the open. Every component described in this document — the chain, the browser, the gateway agent, the SDK, and the validator tooling — is published under the MIT license, and the work is auditable in public commit history rather than announced through releases alone. There is no closed development process running alongside the public one.
+
+This is a statement about *process*, not about scale. Lumen makes no claim to a large distributed contributor base today; the repositories show what they show, and readers are invited to check. What the open model provides is verifiability and the absence of lock-in: the protocol, the client, and the tooling can be inspected, forked, and independently operated by anyone, with no dependency on the current maintainers continuing.
+
+It is worth separating two claims that are often conflated:
+
+- **Network decentralization** — 42 independently operated validators, 0% founder voting power, and governance thresholds that no single party can meet alone. This is live and verifiable on-chain today (see Section 7 and Section 8).
+- **Development decentralization** — a broad contributor base across the codebase. This is an objective, not a present-day claim.
+
+Lumen has the first. Growing the second is what the open licensing and the public [protocol documentation](https://github.com/network-lumen/blockchain/tree/master/docs) exist to enable. Contributions, independent audits, and forks are welcome on every repository listed below; issues and pull requests are the current entry point.
+
+### 11.2 Repositories
 
 All Lumen repositories are open source under the MIT license.
 
 | Component | Repository |
 | --- | --- |
 | Blockchain core | [network-lumen/blockchain](https://github.com/network-lumen/blockchain) |
+| Browser | [network-lumen/browser](https://github.com/network-lumen/browser) |
 | Validator kit | [network-lumen/validator-kit](https://github.com/network-lumen/validator-kit) |
 | Gateway agent | [network-lumen/gateway-agent](https://github.com/network-lumen/gateway-agent) |
 | Integrations & SDK | [network-lumen/integrations](https://github.com/network-lumen/integrations) |
@@ -290,7 +382,7 @@ The JavaScript/TypeScript SDK is published as [`@lumen-chain/sdk`](https://www.n
 
 ---
 
-## 11. References
+## 12. References
 
 - Blockchain documentation (source of truth): [github.com/network-lumen/blockchain/tree/master/docs](https://github.com/network-lumen/blockchain/tree/master/docs)
 - Tokenomics: [docs/tokenomics.md](https://github.com/network-lumen/blockchain/blob/master/docs/tokenomics.md)
