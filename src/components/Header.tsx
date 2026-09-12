@@ -156,7 +156,7 @@ export default function Header() {
               </button>
 
               {buyOpen && (
-                <div className="absolute right-0 top-full mt-2 w-72 origin-top-right rounded-2xl border border-slate-800 bg-slate-900/98 backdrop-blur-xl shadow-2xl shadow-black/50 p-2 animate-scale-in">
+                <div className="absolute right-0 top-full mt-2 w-72 origin-top-right rounded-2xl border border-slate-800 bg-slate-900/95 backdrop-blur-xl shadow-2xl shadow-black/50 p-2 animate-scale-in">
                   <div className="flex items-center gap-2 px-3 pt-2 pb-1.5">
                     <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">CEX</span>
                     <span className="h-px flex-1 bg-slate-800"></span>
