@@ -5,7 +5,6 @@ import Layout from '@/components/Layout'
 const REST_PROVIDERS = [
   { name: 'Cosmos Directory', url: 'https://rest.cosmos.directory/lumen' },
   { name: 'ChainTools', url: 'https://api.lumen.chaintools.tech' },
-  { name: 'Node9x', url: 'https://lumen-api.node9x.com' },
   { name: 'MekongLabs', url: 'https://lumen-mainnet-api.mekonglabs.com' },
 ]
 

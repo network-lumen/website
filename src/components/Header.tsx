@@ -1,11 +1,35 @@
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface NavItem {
   title: string
   href: string
   external?: boolean
 }
+
+interface Venue {
+  name: string
+  description: string
+  href: string
+  logo: string
+}
+
+const dexVenues: Venue[] = [
+  {
+    name: 'Osmosis',
+    description: 'Largest Cosmos DEX',
+    href: 'https://app.osmosis.zone/assets/ibc/88DBE57372690630D2DD9779C247479CE124E777C5D695FA90699F3140CEC59F',
+    logo: '/venues/osmosis.svg',
+  },
+  {
+    name: 'BeeZee DEX',
+    description: 'Order book DEX',
+    href: 'https://dex.getbze.com/exchange/market?id=ibc/693DDB2D9B4260D67C8136C22D837F37488E0FBD81857D8E9C6022332EA26E33/ibc/6490A7EAB61059BFC1CDDEB05917DD70BDF3A611654162A1A47DB930D40D8AF4',
+    logo: '/venues/beezee.svg',
+  },
+]
+
+const cexVenues: Venue[] = []
 
 const navigation: NavItem[] = [
   { title: 'Docs', href: '/docs' },
@@ -20,6 +44,9 @@ const LUMEN_WEB_STORE_URL = 'https://chromewebstore.google.com/detail/lumen-wall
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [buyOpen, setBuyOpen] = useState(false)
+  const [mobileBuyOpen, setMobileBuyOpen] = useState(false)
+  const buyRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +55,26 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    if (!buyOpen) return
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (buyRef.current && !buyRef.current.contains(event.target as Node)) {
+        setBuyOpen(false)
+      }
+    }
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setBuyOpen(false)
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [buyOpen])
 
   const handleOpenWallet = () => {
     if (typeof window === 'undefined') return
@@ -87,6 +134,97 @@ export default function Header() {
                 </Link>
               )
             ))}
+            <div className="relative ml-2" ref={buyRef}>
+              <button
+                type="button"
+                onClick={() => setBuyOpen(!buyOpen)}
+                aria-haspopup="true"
+                aria-expanded={buyOpen}
+                className={`flex items-center gap-1.5 px-5 py-2 text-sm font-extrabold text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 rounded-lg shadow-lg shadow-emerald-500/20 transition-all duration-200 hover:shadow-emerald-500/40 hover:scale-105 ${
+                  buyOpen ? 'shadow-emerald-500/40 scale-105' : ''
+                }`}
+              >
+                Buy $LMN
+                <svg
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${buyOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {buyOpen && (
+                <div className="absolute right-0 top-full mt-2 w-72 origin-top-right rounded-2xl border border-slate-800 bg-slate-900/98 backdrop-blur-xl shadow-2xl shadow-black/50 p-2 animate-scale-in">
+                  <div className="flex items-center gap-2 px-3 pt-2 pb-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">CEX</span>
+                    <span className="h-px flex-1 bg-slate-800"></span>
+                  </div>
+                  {cexVenues.length > 0 ? (
+                    cexVenues.map((venue) => (
+                      <a
+                        key={venue.name}
+                        href={venue.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setBuyOpen(false)}
+                        className="group flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 transition-colors"
+                      >
+                        <img src={venue.logo} alt="" className="h-9 w-9 flex-shrink-0 rounded-lg object-contain" />
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-bold text-white">{venue.name}</span>
+                          <span className="block text-xs text-slate-400">{venue.description}</span>
+                        </span>
+                        <svg
+                          className="w-3.5 h-3.5 text-slate-600 group-hover:text-emerald-400 transition-colors"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    ))
+                  ) : (
+                    <div className="mx-1 px-3 py-3 rounded-xl border border-dashed border-slate-700 bg-slate-800/30 text-center">
+                      <p className="text-xs font-bold text-slate-400">Coming soon</p>
+                      <p className="mt-0.5 text-[11px] text-slate-500">No centralized listing yet</p>
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-2 px-3 pt-3 pb-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400">DEX</span>
+                    <span className="h-px flex-1 bg-slate-800"></span>
+                  </div>
+                  {dexVenues.map((venue) => (
+                    <a
+                      key={venue.name}
+                      href={venue.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setBuyOpen(false)}
+                      className="group flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 transition-colors"
+                    >
+                      <img src={venue.logo} alt="" className="h-9 w-9 flex-shrink-0 rounded-lg object-contain" />
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-sm font-bold text-white">{venue.name}</span>
+                        <span className="block text-xs text-slate-400">{venue.description}</span>
+                      </span>
+                      <svg
+                        className="w-3.5 h-3.5 text-slate-600 group-hover:text-emerald-400 transition-colors"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <button
               type="button"
               onClick={handleOpenWallet}
@@ -151,6 +289,60 @@ export default function Header() {
                   </Link>
                 )
               ))}
+              <button
+                type="button"
+                onClick={() => setMobileBuyOpen(!mobileBuyOpen)}
+                aria-expanded={mobileBuyOpen}
+                className="flex items-center justify-center gap-1.5 px-5 py-3 text-sm font-extrabold text-white bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg shadow-lg shadow-emerald-500/20 transition-all duration-200 mt-2"
+              >
+                Buy $LMN
+                <svg
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${mobileBuyOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {mobileBuyOpen && (
+                <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-2 animate-slide-down">
+                  <div className="flex items-center gap-2 px-2 pt-1 pb-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">CEX</span>
+                    <span className="h-px flex-1 bg-slate-800"></span>
+                  </div>
+                  <div className="px-3 py-3 rounded-lg border border-dashed border-slate-700 bg-slate-800/30 text-center">
+                    <p className="text-xs font-bold text-slate-400">Coming soon</p>
+                    <p className="mt-0.5 text-[11px] text-slate-500">No centralized listing yet</p>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-2 pt-3 pb-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400">DEX</span>
+                    <span className="h-px flex-1 bg-slate-800"></span>
+                  </div>
+                  {dexVenues.map((venue) => (
+                    <a
+                      key={venue.name}
+                      href={venue.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 px-2 py-2.5 rounded-lg hover:bg-slate-800 transition-colors"
+                    >
+                      <img src={venue.logo} alt="" className="h-9 w-9 flex-shrink-0 rounded-lg object-contain" />
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-sm font-bold text-white">{venue.name}</span>
+                        <span className="block text-xs text-slate-400">{venue.description}</span>
+                      </span>
+                      <svg className="w-3.5 h-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  ))}
+                </div>
+              )}
+
               <button
                 type="button"
                 onClick={handleOpenWallet}

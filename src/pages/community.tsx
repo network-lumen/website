@@ -10,20 +10,54 @@ export default function Community() {
   const [testResults, setTestResults] = useState<Record<string, any>>({})
   const [isTesting, setIsTesting] = useState<Record<string, boolean>>({})
 
+  const formatAge = (seconds: number) => {
+    if (seconds < 60) return `${seconds}s ago`
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`
+    return `${Math.floor(seconds / 3600)}h ago`
+  }
+
   const testNode = async (url: string, type: string) => {
-    if (type !== 'RPC') return
+    if (type !== 'RPC' && type !== 'API') return
 
     setIsTesting(prev => ({ ...prev, [url]: true }))
     setTestResults(prev => ({ ...prev, [url]: null })) // Reset result
 
     try {
+      if (type === 'API') {
+        const [blockRes, syncRes] = await Promise.all([
+          fetch(`${url}/cosmos/base/tendermint/v1beta1/blocks/latest`),
+          fetch(`${url}/cosmos/base/tendermint/v1beta1/syncing`).catch(() => null),
+        ])
+        const data = await blockRes.json()
+        const header = data.block?.header
+
+        if (header) {
+          const sync = syncRes ? await syncRes.json().catch(() => null) : null
+          setTestResults(prev => ({
+            ...prev,
+            [url]: {
+              type: 'API',
+              chain_id: header.chain_id,
+              height: header.height,
+              age: Math.max(0, Math.round((Date.now() - new Date(header.time).getTime()) / 1000)),
+              syncing: typeof sync?.syncing === 'boolean' ? sync.syncing : null,
+              ok: true
+            }
+          }))
+        } else {
+          setTestResults(prev => ({ ...prev, [url]: { type: 'API', ok: false, error: 'Unexpected response' } }))
+        }
+        return
+      }
+
       const response = await fetch(`${url}/status`)
       const data = await response.json()
-      
+
       if (data.result) {
         setTestResults(prev => ({
           ...prev,
           [url]: {
+            type: 'RPC',
             earliest: data.result.sync_info.earliest_block_height,
             latest: data.result.sync_info.latest_block_height,
             tx_index: data.result.node_info?.other?.tx_index || 'unknown',
@@ -72,6 +106,12 @@ export default function Community() {
       description: 'Global community',
       link: 'https://t.me/+HBWh_cUJCrZiODE0',
       color: 'from-blue-500 to-cyan-600',
+    },
+    {
+      name: 'X',
+      description: 'News & announcements',
+      link: 'https://x.com/LumenStack',
+      color: 'from-slate-800 to-black',
     },
     {
       name: 'GitHub',
@@ -149,7 +189,7 @@ export default function Community() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
               {platforms.map((platform, i) => (
                 <a
                   key={i}
@@ -165,7 +205,7 @@ export default function Community() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
 
                   {/* Content */}
-                  <div className="relative p-8 text-white">
+                  <div className="relative p-6 text-white">
                     <div className="w-16 h-16 mb-6 transform group-hover:scale-110 transition-transform duration-500">
                       {platform.name === 'Discord' && (
                         <svg viewBox="0 0 71 55" fill="currentColor" className="w-full h-full">
@@ -175,6 +215,11 @@ export default function Community() {
                       {platform.name === 'Telegram' && (
                         <svg viewBox="0 0 496 512" fill="currentColor" className="w-full h-full">
                           <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/>
+                        </svg>
+                      )}
+                      {platform.name === 'X' && (
+                        <svg viewBox="0 0 512 512" fill="currentColor" className="w-full h-full">
+                          <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
                         </svg>
                       )}
                       {platform.name === 'GitHub' && (
@@ -191,7 +236,7 @@ export default function Community() {
                     <h3 className="text-2xl font-black mb-2">{platform.name}</h3>
                     <p className="text-white/80 mb-4 text-sm">{platform.description}</p>
                     {/* Arrow Icon */}
-                    <div className="absolute top-8 right-8 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
+                    <div className="absolute top-6 right-6 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
                       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
@@ -517,7 +562,7 @@ export default function Community() {
 
                             <div className="flex items-center gap-2">
                               {/* Test Button */}
-                              {activeTab === 'RPC' && (
+                              {(endpoint.name === 'RPC' || endpoint.name === 'API') && (
                                 <>
                                   {testResults[item.url] ? (
                                     <button
@@ -531,7 +576,7 @@ export default function Community() {
                                     </button>
                                   ) : (
                                     <button
-                                      onClick={() => testNode(item.url, activeTab)}
+                                      onClick={() => testNode(item.url, endpoint.name)}
                                       disabled={isTesting[item.url]}
                                       className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                                         isTesting[item.url] 
@@ -576,8 +621,49 @@ export default function Community() {
                             </div>
                           </div>
 
-                          {/* RESULT PANEL */}
-                          {testResults[item.url] && testResults[item.url].ok && (
+                          {/* API RESULT PANEL */}
+                          {testResults[item.url]?.ok && testResults[item.url].type === 'API' && (
+                            <div className="mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 md:grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2">
+                              <div>
+                                <div className="text-xs text-slate-500 font-medium mb-1">Block Height</div>
+                                <div className="text-sm font-mono font-bold text-slate-800">
+                                  {parseInt(testResults[item.url].height).toLocaleString()}
+                                </div>
+                              </div>
+
+                              <div>
+                                <div className="text-xs text-slate-500 font-medium mb-1">Chain ID</div>
+                                <div className={`text-sm font-mono font-bold ${
+                                  testResults[item.url].chain_id === 'lumen' ? 'text-slate-800' : 'text-red-500'
+                                }`}>
+                                  {testResults[item.url].chain_id}
+                                </div>
+                              </div>
+
+                              <div>
+                                <div className="text-xs text-slate-500 font-medium mb-1">Last Block</div>
+                                <div className={`text-sm font-bold ${
+                                  testResults[item.url].age <= 60 ? 'text-green-600' : 'text-red-500'
+                                }`}>
+                                  {formatAge(testResults[item.url].age)}
+                                </div>
+                              </div>
+
+                              {testResults[item.url].syncing !== null && (
+                                <div>
+                                  <div className="text-xs text-slate-500 font-medium mb-1">Status</div>
+                                  <div className={`text-sm font-bold uppercase ${
+                                    testResults[item.url].syncing ? 'text-red-500' : 'text-green-600'
+                                  }`}>
+                                    {testResults[item.url].syncing ? 'Catching up' : 'Synced'}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* RPC RESULT PANEL */}
+                          {testResults[item.url]?.ok && testResults[item.url].type === 'RPC' && (
                             <div className="mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 md:grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2">
                               <div>
                                 <div className="text-xs text-slate-500 font-medium mb-1">Block Height</div>
@@ -621,7 +707,9 @@ export default function Community() {
                           {/* ERROR MESSAGE */}
                           {testResults[item.url] && !testResults[item.url].ok && (
                             <div className="mt-3 text-xs text-red-500 font-medium px-2 py-1 bg-red-50 rounded">
-                              Failed to fetch status. Possibly CORS restricted by the node.
+                              {testResults[item.url].error === 'Unexpected response'
+                                ? 'Endpoint reachable but returned an unexpected response.'
+                                : 'Failed to reach the endpoint. Possibly CORS restricted by the node.'}
                             </div>
                           )}
                         </div>

@@ -1,14 +1,11 @@
 export const explorers = [
   { name: 'ChainTools', url: 'https://explorer.chaintools.tech/lumen' },
-  { name: 'BlockSync', url: 'https://dashboard.blocksync.me/lumen' },
   { name: 'MekongLabs', url: 'https://explorer.mekonglabs.com/lumen-mainnet' },
   { name: 'OneNov', url: 'https://explorer.onenov.xyz/lumen' },
   { name: 'NodeGod20', url: 'https://explorer.nodegod20.cloud/lumen-mainnet' },
   { name: 'WinScan', url: 'https://winscan.winsnip.xyz/lumen-mainnet' },
   { name: 'Maouam', url: 'https://explorer.maouam.xyz/lumen-mainnet' },
   { name: 'Astrostake', url: 'https://stake.astrostake.xyz/lumen' },
-  { name: 'Gombezzz', url: 'https://explorer.gombezzz.xyz/lumen-mainnet' },
-  { name: 'Node9x', url: 'https://explorer.node9x.com/lumen' },
   { name: 'OV Explorer', url: 'https://ov-explorer.onenov.xyz/network/lumen' },
   { name: 'UTSA Staking', url: 'https://exp.utsa.tech/lumen/staking' },
   { name: 'Indonode', url: 'https://explorer.indonode.net/lumen/' },
@@ -25,10 +22,9 @@ export const endpoints = [
     items: [
         { provider: 'AstroStake', url: 'https://lumen-rpc.linknode.org' },
         { provider: 'Chaintools', url: 'https://rpc.lumen.chaintools.tech'},
-        { provider: 'BlockSync', url: 'https://lumen.blocksync.me/rpc' },
-        { provider: 'Node9x', url: 'https://lumen-rpc.node9x.com' },
         { provider: 'UTSA', url: 'https://m-lumen.rpc.utsa.tech' },
-        { provider: 'OneNov', url: 'https://rpc-lumen.onenov.xyz' }
+        { provider: 'OneNov', url: 'https://rpc-lumen.onenov.xyz' },
+        { provider: 'MekongLabs', url: 'https://lumen-mainnet-rpc.mekonglabs.com' }
     ],
   },
   {
@@ -36,9 +32,10 @@ export const endpoints = [
     description: 'REST API endpoints for querying blockchain data',
     items: [
         { provider: 'Chaintools', url: 'https://api.lumen.chaintools.tech:443'},
-        { provider: 'BlockSync', url: 'https://lumen.blocksync.me/api' },
-        { provider: 'Node9x', url: 'https://lumen-api.node9x.com'},
-        { provider: 'UTSA', url: 'https://m-lumen.api.utsa.tech' }
+        { provider: 'UTSA', url: 'https://m-lumen.api.utsa.tech' },
+        { provider: 'AstroStake', url: 'https://lumen-api.linknode.org' },
+        { provider: 'OneNov', url: 'https://api-lumen.onenov.xyz' },
+        { provider: 'Indonode', url: 'https://api.lumen.indonode.net' }
     ],
   },
   {
@@ -46,7 +43,8 @@ export const endpoints = [
     description: 'gRPC endpoints for high-performance communication',
     items: [
       { provider: 'AstroStake', url: 'lumen-grpc.linknode.org:443' },
-      { provider: 'BlockSync', url: 'lumen-grpc.blocksync.me:443' }
+      { provider: 'MekongLabs', url: 'lumen-mainnet-grpc.mekonglabs.com:443' },
+      { provider: 'UTSA', url: 'm-lumen.rpc.utsa.tech:9090' }
     ],
   },
 ]
