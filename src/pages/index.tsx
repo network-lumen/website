@@ -8,7 +8,6 @@ export default function Home() {
       <Head>
         <title>Lumen Browser — Download the browser</title>
         <meta name="description" content="Download Lumen and try a browser built for a more direct web experience." />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

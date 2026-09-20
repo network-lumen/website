@@ -6,6 +6,9 @@
 @tailwind utilities;
 
 :root {
+  /* Height of the fixed site header — pages that start with content
+     (instead of a hero) offset by this, and the docs sidebar sticks to it. */
+  --header-h: 68px;
   --background: #ffffff;
   --foreground: #0f172a;
   --primary: #2563eb;
@@ -148,22 +151,18 @@ code {
 }
 
 /* Animations */
+/* Slides the element's own gradient across it — pair with a background wider
+   than the element (e.g. bg-[length:200%_100%]). It must not declare a
+   `background` of its own, or it would paint over that gradient. */
 @keyframes shimmer {
   0% {
-    background-position: -1000px 0;
+    background-position: 0% 50%;
   }
   100% {
-    background-position: 1000px 0;
+    background-position: 200% 50%;
   }
 }
 
 .animate-shimmer {
-  animation: shimmer 2s infinite;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(255, 255, 255, 0.3) 50%,
-    transparent 100%
-  );
-  background-size: 1000px 100%;
+  animation: shimmer 4s linear infinite;
 }

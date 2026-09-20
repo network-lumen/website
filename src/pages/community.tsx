@@ -174,17 +174,17 @@ export default function Community() {
       </section>
 
       <div className="bg-gradient-to-b from-white via-slate-50 to-white">
-        <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           {/* Platform Cards */}
           <div className="mb-24">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-black text-slate-900 mb-6">
+            <div className="text-center mb-10 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4 sm:mb-6">
                 Connect{' '}
                 <span className="bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                   With Us
                 </span>
               </h2>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              <p className="text-base sm:text-xl text-slate-600 max-w-3xl mx-auto">
                 Choose your preferred platform to connect with us
               </p>
             </div>
@@ -252,14 +252,14 @@ export default function Community() {
 
           {/* Documentation Links */}
           <div className="mb-24">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-black text-slate-900 mb-6">
+            <div className="text-center mb-10 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4 sm:mb-6">
                 Official{' '}
                 <span className="bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                   Documentation
                 </span>
               </h2>
-              <p className="text-xl text-slate-600">
+              <p className="text-base sm:text-xl text-slate-600">
                 Comprehensive guides and resources from the community
               </p>
             </div>
@@ -315,14 +315,14 @@ export default function Community() {
 
           {/* Community Tools */}
           <div className="mb-24">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-black text-slate-900 mb-6">
+            <div className="text-center mb-10 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4 sm:mb-6">
                 Community{' '}
                 <span className="bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                   Tools
                 </span>
               </h2>
-              <p className="text-xl text-slate-600">
+              <p className="text-base sm:text-xl text-slate-600">
                 Useful tools built and maintained by the community
               </p>
             </div>
@@ -361,40 +361,43 @@ export default function Community() {
 
           {/* Network Explorers */}
           <div className="mb-24">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-black text-slate-900 mb-6">
+            <div className="text-center mb-10 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4 sm:mb-6">
                 Network{' '}
                 <span className="bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                   Explorers
                 </span>
               </h2>
-              <p className="text-xl text-slate-600">
+              <p className="text-base sm:text-xl text-slate-600">
                 Track and explore Lumen Network blockchain activity
               </p>
             </div>
 
             <div className="max-w-5xl mx-auto">
               {/* Stats Banner */}
-              <div className="grid grid-cols-3 gap-4 mb-8">
-                <div className="bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl p-6 text-center text-white shadow-xl shadow-primary-500/20">
-                  <div className="text-4xl font-black">{explorers.length}</div>
-                  <div className="text-primary-100 text-sm font-medium mt-1">Total Explorers</div>
+              <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
+                <div className="bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl p-3 sm:p-6 text-center text-white shadow-xl shadow-primary-500/20">
+                  <div className="text-lg sm:text-3xl lg:text-4xl font-black leading-tight">{explorers.length}</div>
+                  <div className="text-primary-100 text-[11px] sm:text-sm font-medium mt-1 leading-snug">Total Explorers</div>
                 </div>
-                <div className="bg-gradient-to-br from-accent-500 to-accent-600 rounded-2xl p-6 text-center text-white shadow-xl shadow-accent-500/20">
-                  <div className="text-4xl font-black">24/7</div>
-                  <div className="text-accent-100 text-sm font-medium mt-1">Availability</div>
+                <div className="bg-gradient-to-br from-accent-500 to-accent-600 rounded-2xl p-3 sm:p-6 text-center text-white shadow-xl shadow-accent-500/20">
+                  <div className="text-lg sm:text-3xl lg:text-4xl font-black leading-tight">24/7</div>
+                  <div className="text-accent-100 text-[11px] sm:text-sm font-medium mt-1 leading-snug">Availability</div>
                 </div>
-                <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-center text-white shadow-xl shadow-emerald-500/20">
-                  <div className="text-4xl font-black">Mainnet</div>
-                  <div className="text-emerald-100 text-sm font-medium mt-1">Network Status</div>
+                <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-3 sm:p-6 text-center text-white shadow-xl shadow-emerald-500/20">
+                  <div className="text-lg sm:text-3xl lg:text-4xl font-black leading-tight">Mainnet</div>
+                  <div className="text-emerald-100 text-[11px] sm:text-sm font-medium mt-1 leading-snug">Network Status</div>
                 </div>
               </div>
 
               {/* Explorer Table */}
               <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl shadow-slate-200/50 overflow-hidden">
                 {/* Table Header */}
-                <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-8 py-5">
-                  <div className="grid grid-cols-12 gap-4 items-center">
+                <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-4 py-4 sm:px-6 lg:px-8 lg:py-5">
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider lg:hidden">
+                    Block Explorers
+                  </div>
+                  <div className="hidden lg:grid grid-cols-12 gap-4 items-center">
                     <div className="col-span-1 text-center text-xs font-bold text-slate-400 uppercase tracking-wider">#</div>
                     <div className="col-span-3 text-xs font-bold text-slate-400 uppercase tracking-wider">Provider</div>
                     <div className="col-span-5 text-xs font-bold text-slate-400 uppercase tracking-wider">Endpoint URL</div>
@@ -408,42 +411,42 @@ export default function Community() {
                   {explorers.map((explorer, i) => (
                     <div
                       key={i}
-                      className={`grid grid-cols-12 gap-4 px-8 py-5 items-center transition-all duration-300 hover:bg-gradient-to-r hover:from-primary-50 hover:via-white hover:to-accent-50 group cursor-pointer ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}
+                      className={`grid grid-cols-[auto_1fr_auto] items-center gap-x-3 gap-y-3 px-4 py-5 transition-all duration-300 hover:bg-gradient-to-r hover:from-primary-50 hover:via-white hover:to-accent-50 group cursor-pointer sm:px-6 lg:grid-cols-12 lg:gap-4 lg:px-8 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}
                     >
                       {/* Number */}
-                      <div className="col-span-1 text-center">
+                      <div className="order-1 text-center lg:order-none lg:col-span-1">
                         <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 text-slate-600 font-bold text-sm group-hover:from-primary-500 group-hover:to-accent-500 group-hover:text-white transition-all duration-300 shadow-sm">
                           {String(i + 1).padStart(2, '0')}
                         </span>
                       </div>
                       
                       {/* Provider Name */}
-                      <div className="col-span-3">
-                        <div className="flex items-center gap-4">
+                      <div className="order-2 min-w-0 lg:order-none lg:col-span-3">
+                        <div className="flex items-center gap-3 sm:gap-4">
                           <div className="w-11 h-11 bg-gradient-to-br from-primary-100 to-accent-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:from-primary-500 group-hover:to-accent-500 transition-all duration-300 shadow-sm group-hover:shadow-lg group-hover:shadow-primary-500/20 group-hover:scale-110">
                             <svg className="w-5 h-5 text-primary-600 group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                           </div>
-                          <div>
-                            <span className="font-bold text-slate-900 group-hover:text-primary-600 transition-colors">{explorer.name}</span>
+                          <div className="min-w-0">
+                            <span className="block truncate font-bold text-slate-900 group-hover:text-primary-600 transition-colors">{explorer.name}</span>
                             <div className="text-xs text-slate-400 mt-0.5">Block Explorer</div>
                           </div>
                         </div>
                       </div>
                       
                       {/* URL */}
-                      <div className="col-span-5">
-                        <div className="flex items-center gap-2 bg-slate-100 group-hover:bg-white rounded-xl px-4 py-2.5 transition-all duration-300 border border-transparent group-hover:border-slate-200">
+                      <div className="order-4 col-span-3 min-w-0 lg:order-none lg:col-span-5">
+                        <div className="flex items-center gap-2 bg-slate-100 group-hover:bg-white rounded-xl px-3 py-2.5 transition-all duration-300 border border-transparent group-hover:border-slate-200 sm:px-4">
                           <svg className="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                           </svg>
-                          <span className="text-sm text-slate-600 font-mono truncate">{explorer.url.replace('https://', '')}</span>
+                          <span className="text-xs sm:text-sm text-slate-600 font-mono truncate">{explorer.url.replace('https://', '')}</span>
                         </div>
                       </div>
                       
                       {/* Status */}
-                      <div className="col-span-1 text-center">
+                      <div className="order-3 text-center lg:order-none lg:col-span-1">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">
                           <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -454,12 +457,12 @@ export default function Community() {
                       </div>
                       
                       {/* Action Button */}
-                      <div className="col-span-2 text-center">
+                      <div className="order-5 col-span-3 text-center lg:order-none lg:col-span-2">
                         <a
                           href={explorer.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-500 to-accent-500 text-white text-sm font-bold rounded-xl hover:shadow-xl hover:shadow-primary-500/30 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
+                          className="inline-flex w-full items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-500 to-accent-500 text-white text-sm font-bold rounded-xl hover:shadow-xl hover:shadow-primary-500/30 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 lg:w-auto"
                         >
                           <span>Explore</span>
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -472,8 +475,8 @@ export default function Community() {
                 </div>
 
                 {/* Table Footer */}
-                <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-8 py-4 border-t border-slate-200">
-                  <div className="flex items-center justify-between">
+                <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-4 py-4 border-t border-slate-200 sm:px-6 lg:px-8">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div className="text-sm text-slate-500">
                       Showing <span className="font-bold text-slate-700">{explorers.length}</span> explorer providers
                     </div>
@@ -491,14 +494,14 @@ export default function Community() {
 
           {/* Network Endpoints */}
           <div>
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-black text-slate-900 mb-6">
+            <div className="text-center mb-10 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4 sm:mb-6">
                 Network{' '}
                 <span className="bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                   Endpoints
                 </span>
               </h2>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              <p className="text-base sm:text-xl text-slate-600 max-w-3xl mx-auto">
                 Connect to Lumen Network through multiple providers
               </p>
             </div>
@@ -510,7 +513,7 @@ export default function Community() {
                   <button
                     key={endpoint.name}
                     onClick={() => setActiveTab(endpoint.name)}
-                    className={`px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${
+                    className={`px-5 py-3 rounded-2xl font-bold text-base transition-all duration-300 sm:px-8 sm:py-4 sm:text-lg ${
                       activeTab === endpoint.name
                         ? 'bg-gradient-to-r from-primary-600 to-accent-600 text-white shadow-lg shadow-primary-500/30 scale-105'
                         : 'bg-white border-2 border-slate-200 text-slate-700 hover:border-primary-300 hover:shadow-md'
@@ -529,23 +532,23 @@ export default function Community() {
                     activeTab === endpoint.name ? 'opacity-100' : 'opacity-0 hidden'
                   }`}
                 >
-                  <div className="bg-white rounded-3xl border-2 border-slate-200 p-8 shadow-xl">
-                    <div className="flex items-start gap-4 mb-6 pb-6 border-b border-slate-200">
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-accent-100 rounded-2xl flex items-center justify-center flex-shrink-0">
-                        <svg className="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="bg-white rounded-3xl border-2 border-slate-200 p-4 shadow-xl sm:p-8">
+                    <div className="flex items-start gap-3 mb-6 pb-6 border-b border-slate-200 sm:gap-4">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-100 to-accent-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <svg className="w-6 h-6 sm:w-8 sm:h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="text-3xl font-black text-slate-900 mb-2">{endpoint.name}</h3>
-                        <p className="text-slate-600">{endpoint.description}</p>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2">{endpoint.name}</h3>
+                        <p className="text-sm sm:text-base text-slate-600">{endpoint.description}</p>
                       </div>
                     </div>
                     
                     <div className="space-y-4">
                       {endpoint.items.map((item, j) => (
-                        <div key={j} className="group relative bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:bg-slate-100 transition-all duration-300 hover:shadow-md">
-                          <div className="flex items-center justify-between gap-4">
+                        <div key={j} className="group relative bg-slate-50 rounded-2xl p-4 border border-slate-100 hover:bg-slate-100 transition-all duration-300 hover:shadow-md sm:p-6">
+                          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-3 mb-2">
                                 <span className="px-3 py-1 bg-primary-100 text-primary-700 rounded-lg text-xs font-bold uppercase">
@@ -557,10 +560,10 @@ export default function Community() {
                                   </span>
                                 )}
                               </div>
-                              <code className="text-base text-slate-900 font-mono break-all block">{item.url}</code>
+                              <code className="text-sm sm:text-base text-slate-900 font-mono break-all block">{item.url}</code>
                             </div>
 
-                            <div className="flex items-center gap-2">
+                            <div className="flex flex-shrink-0 items-center gap-2">
                               {/* Test Button */}
                               {(endpoint.name === 'RPC' || endpoint.name === 'API') && (
                                 <>

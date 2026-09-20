@@ -7,7 +7,7 @@ export const explorers = [
   { name: 'Maouam', url: 'https://explorer.maouam.xyz/lumen-mainnet' },
   { name: 'Astrostake', url: 'https://stake.astrostake.xyz/lumen' },
   { name: 'OV Explorer', url: 'https://ov-explorer.onenov.xyz/network/lumen' },
-  { name: 'UTSA Staking', url: 'https://exp.utsa.tech/lumen/staking' },
+  { name: 'UTSA', url: 'https://explorer.utsa.tech/networks/lumen-mainnet' },
   { name: 'Indonode', url: 'https://explorer.indonode.net/lumen/' },
 ]
 

@@ -49,45 +49,45 @@ export default function DocsIndex({ allDocs, categories }: DocsIndexProps) {
         <meta name="description" content="Lumen Network comprehensive documentation and guides" />
       </Head>
 
-      <div className="flex">
+      <div className="flex flex-col pt-[var(--header-h)] lg:flex-row">
         <Sidebar docs={allDocs} />
-        
-        <div className="flex-1 bg-gradient-to-b from-slate-50 via-white to-slate-50">
-          <article className="mx-auto max-w-6xl px-6 py-20 lg:px-8">
+
+        <div className="min-w-0 flex-1 bg-gradient-to-b from-slate-50 via-white to-slate-50">
+          <article className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
             {/* Header */}
-            <header className={`mb-20 transition-all duration-1000 ${
+            <header className={`mb-14 sm:mb-20 transition-all duration-1000 ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}>
               <div className="relative mb-8">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-2xl blur-xl opacity-20 animate-pulse"></div>
-                <div className="relative inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl border-2 border-cyan-200 shadow-lg">
+                <div className="relative inline-flex items-center gap-3 px-4 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl border-2 border-cyan-200 shadow-lg">
                   <span className="relative flex h-3 w-3">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-500 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-500 shadow-lg shadow-cyan-500/50"></span>
                   </span>
-                  <span className="text-base font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent tracking-wider uppercase">Developer Hub</span>
+                  <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent tracking-wider uppercase">Developer Hub</span>
                 </div>
               </div>
 
-              <h1 className="text-6xl lg:text-8xl font-black mb-10 leading-tight">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 sm:mb-10 leading-tight">
                 <span className="block text-slate-900 mb-2">Documentation</span>
                 <span className="block bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 bg-clip-text text-transparent animate-shimmer bg-[length:200%_100%]">
                   Center
                 </span>
               </h1>
 
-              <p className="text-2xl text-slate-600 leading-relaxed max-w-4xl">
+              <p className="text-lg sm:text-2xl text-slate-600 leading-relaxed max-w-4xl">
                 Everything you need to build, deploy, and scale on Lumen Network. From beginner guides to advanced technical specifications.
               </p>
             </header>
 
             {/* Quick Start Cards */}
-            <div className={`mb-24 transition-all duration-1000 delay-200 ${
+            <div className={`mb-16 sm:mb-24 transition-all duration-1000 delay-200 ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}>
-              <h2 className="text-4xl font-black text-slate-900 mb-12">Quick Start</h2>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-8 sm:mb-12">Quick Start</h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                 {quickStartCards.map((card, i) => (
                   <Link
                     key={i}
@@ -131,10 +131,10 @@ export default function DocsIndex({ allDocs, categories }: DocsIndexProps) {
             </div>
 
             {/* Documentation Categories */}
-            <div className={`space-y-16 transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className={`space-y-12 sm:space-y-16 transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               {Object.entries(categories).map(([category, docs]) => (
                 <div key={category}>
-                  <h2 className="text-4xl font-black text-slate-900 mb-8 capitalize">
+                  <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-6 sm:mb-8 capitalize">
                     {category}
                     <span className="ml-3 text-primary-600">({docs.length})</span>
                   </h2>
@@ -145,7 +145,7 @@ export default function DocsIndex({ allDocs, categories }: DocsIndexProps) {
                         key={doc.slug}
                         href={`/docs/${doc.slug}`}
                         prefetch={false}
-                        className="group relative p-8 rounded-2xl bg-white border border-slate-200 hover:border-primary-300 transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/10 hover:-translate-y-1"
+                        className="group relative p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 hover:border-primary-300 transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/10 hover:-translate-y-1"
                       >
                         {/* Gradient Accent */}
                         <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary-500 to-accent-500 rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -155,7 +155,7 @@ export default function DocsIndex({ allDocs, categories }: DocsIndexProps) {
 
                         <div className="relative">
                           <div className="flex items-start justify-between mb-4">
-                            <h3 className="text-2xl font-bold text-slate-900 group-hover:text-primary-700 transition-colors">
+                            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 group-hover:text-primary-700 transition-colors">
                               {doc.title}
                             </h3>
                             <svg className="w-6 h-6 text-slate-400 group-hover:text-primary-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -181,13 +181,13 @@ export default function DocsIndex({ allDocs, categories }: DocsIndexProps) {
             </div>
 
             {/* Additional Resources */}
-            <div className={`mt-24 p-12 rounded-3xl bg-gradient-to-br from-primary-600 via-primary-700 to-accent-600 text-white transition-all duration-1000 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className={`mt-16 sm:mt-24 p-6 sm:p-10 lg:p-12 rounded-3xl bg-gradient-to-br from-primary-600 via-primary-700 to-accent-600 text-white transition-all duration-1000 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <div className="relative">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
                 
                 <div className="relative">
-                  <h2 className="text-4xl font-black mb-6">Need Help?</h2>
-                  <p className="text-xl text-blue-100 mb-10 max-w-3xl leading-relaxed">
+                  <h2 className="text-3xl sm:text-4xl font-black mb-6">Need Help?</h2>
+                  <p className="text-lg sm:text-xl text-blue-100 mb-8 sm:mb-10 max-w-3xl leading-relaxed">
                     Can't find what you're looking for? Join our community or check out these resources
                   </p>
 

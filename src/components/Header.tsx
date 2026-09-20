@@ -89,7 +89,7 @@ export default function Header() {
         : 'bg-slate-950/80 backdrop-blur-lg border-b border-slate-900'
     }`}>
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
-        <div className="flex w-full items-center justify-between py-3">
+        <div className="flex h-[var(--header-h)] w-full items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" prefetch={false} className="group flex items-center gap-3 hover:scale-105 transition-transform duration-300">
               <div className="relative w-10 h-10">
@@ -108,7 +108,7 @@ export default function Header() {
             </Link>
           </div>
           
-          <div className="hidden md:flex md:items-center md:gap-2">
+          <div className="hidden xl:flex xl:items-center xl:gap-2">
             {navigation.map((item) => (
               item.external ? (
                 <a
@@ -242,7 +242,7 @@ export default function Header() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="xl:hidden">
             <button
               type="button"
               className="p-2 text-white hover:bg-slate-800 rounded-lg transition-colors"
@@ -261,7 +261,7 @@ export default function Header() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden pb-4 animate-slide-down">
+          <div className="xl:hidden pb-4 animate-slide-down">
             <div className="flex flex-col space-y-2 bg-slate-900/95 backdrop-blur-xl rounded-xl p-4 border border-slate-800">
               {navigation.map((item) => (
                 item.external ? (

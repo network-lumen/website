@@ -18,13 +18,13 @@ export default function DocPage({ doc, allDocs }: DocPageProps) {
         <meta name="description" content={doc.description || doc.title} />
       </Head>
 
-      <div className="flex">
+      <div className="flex flex-col pt-[var(--header-h)] lg:flex-row">
         <Sidebar docs={allDocs} currentSlug={doc.slug} />
-        
-        <div className="flex-1 bg-gradient-to-b from-slate-50 to-white">
-          <article className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
+
+        <div className="min-w-0 flex-1 bg-gradient-to-b from-slate-50 to-white">
+          <article className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
             {/* Breadcrumbs */}
-            <nav className="mb-8 flex items-center gap-2 text-sm">
+            <nav className="mb-8 flex flex-wrap items-center gap-2 text-sm">
               <a href="/" className="text-slate-600 hover:text-primary-600 transition-colors">Home</a>
               <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -43,11 +43,11 @@ export default function DocPage({ doc, allDocs }: DocPageProps) {
                   <span className="text-sm font-bold text-primary-700 tracking-wider uppercase">{doc.category}</span>
                 </div>
               )}
-              <h1 className="text-5xl lg:text-6xl font-black text-slate-900 mb-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black text-slate-900 mb-6 [overflow-wrap:anywhere]">
                 {doc.title}
               </h1>
               {doc.description && (
-                <p className="text-xl text-slate-600 leading-relaxed">{doc.description}</p>
+                <p className="text-base sm:text-xl text-slate-600 leading-relaxed">{doc.description}</p>
               )}
               
               {/* Metadata */}
@@ -70,7 +70,7 @@ export default function DocPage({ doc, allDocs }: DocPageProps) {
             {/* Content */}
             <div className="relative">
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 via-primary-400 to-transparent rounded-full"></div>
-              <div className="pl-8">
+              <div className="min-w-0 pl-4 sm:pl-8">
                 <MarkdownRenderer content={doc.content} />
               </div>
             </div>
