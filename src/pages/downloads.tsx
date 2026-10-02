@@ -123,6 +123,7 @@ export default function Downloads() {
       linuxX64: findAsset(assets, /Lumen-Browser-.*-linux-x64\.AppImage$/i),
       macArm64: findAsset(assets, /Lumen-Browser-.*-mac-arm64\.dmg$/i),
       macX64: findAsset(assets, /Lumen-Browser-.*-mac-x64\.dmg$/i),
+      android: findAsset(assets, /Lumen-Browser-.*-android-universal\.apk$/i),
       sha256sums: findAsset(assets, /^SHA256SUMS\.txt$/i),
     }
   }, [assets])
@@ -136,7 +137,7 @@ export default function Downloads() {
         <title>Download Beta - Lumen Network</title>
         <meta
           name="description"
-          content="Download the Lumen Browser beta for Windows, macOS, and Linux."
+          content="Download the Lumen Browser beta for Windows, macOS, Linux, and Android."
         />
       </Head>
 
@@ -159,10 +160,10 @@ export default function Downloads() {
                   <>
                     Latest release:{' '}
                     <span className="text-white font-black">{latestTag}</span>{' '}
-                    — available for Windows, macOS, and Linux.
+                    — available for Windows, macOS, Linux, and Android.
                   </>
                 ) : (
-                  <>Windows, macOS and Linux are available.</>
+                  <>Windows, macOS, Linux and Android are available.</>
                 )}
               </p>
             </div>
@@ -206,7 +207,7 @@ export default function Downloads() {
                     'Windows 10/11 (64-bit)',
                     'Installer (.exe)',
                     'Auto-updates: Yes',
-                    'macOS & Linux: Yes',
+                    'macOS, Linux & Android: Yes',
                   ].map((item) => (
                     <div
                       key={item}
@@ -312,6 +313,14 @@ export default function Downloads() {
                         : 'DMG',
                       url: downloadLinks.macX64?.browser_download_url || null,
                       available: !!downloadLinks.macX64,
+                    },
+                    {
+                      title: 'Android',
+                      detail: downloadLinks.android?.size
+                        ? `APK • ${formatSize(downloadLinks.android.size)}`
+                        : 'APK',
+                      url: downloadLinks.android?.browser_download_url || null,
+                      available: !!downloadLinks.android,
                     },
                     { title: 'Windows (arm64)', detail: 'Coming soon', url: null, available: false },
                   ].map((item) => (

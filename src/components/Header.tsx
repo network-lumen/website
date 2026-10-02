@@ -158,7 +158,7 @@ export default function Header() {
               {buyOpen && (
                 <div className="absolute right-0 top-full mt-2 w-72 origin-top-right rounded-2xl border border-slate-800 bg-slate-900/95 backdrop-blur-xl shadow-2xl shadow-black/50 p-2 animate-scale-in">
                   <div className="flex items-center gap-2 px-3 pt-2 pb-1.5">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">CEX</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">With CB</span>
                     <span className="h-px flex-1 bg-slate-800"></span>
                   </div>
                   {cexVenues.length > 0 ? (
@@ -194,7 +194,7 @@ export default function Header() {
                   )}
 
                   <div className="flex items-center gap-2 px-3 pt-3 pb-1.5">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400">DEX</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400">With crypto</span>
                     <span className="h-px flex-1 bg-slate-800"></span>
                   </div>
                   {dexVenues.map((venue) => (
@@ -309,7 +309,7 @@ export default function Header() {
               {mobileBuyOpen && (
                 <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-2 animate-slide-down">
                   <div className="flex items-center gap-2 px-2 pt-1 pb-1.5">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">CEX</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">With CB</span>
                     <span className="h-px flex-1 bg-slate-800"></span>
                   </div>
                   <div className="px-3 py-3 rounded-lg border border-dashed border-slate-700 bg-slate-800/30 text-center">
@@ -318,7 +318,7 @@ export default function Header() {
                   </div>
 
                   <div className="flex items-center gap-2 px-2 pt-3 pb-1.5">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400">DEX</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400">With crypto</span>
                     <span className="h-px flex-1 bg-slate-800"></span>
                   </div>
                   {dexVenues.map((venue) => (
