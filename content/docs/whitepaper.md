@@ -45,7 +45,7 @@ The Lumen architecture follows five principles:
 
 1. **Own the entry point.** Decentralized access must be delivered as a product a user can open, not as a protocol a user must assemble.
 2. **Verify at the edge.** Content integrity and name resolution are checked on the client, not trusted from a hosted endpoint.
-3. **Remove the fee barrier.** Gas fees are a UX tax on onboarding. Lumen has no gas market at all; spam resistance is handled by a flat transfer tax instead, so a user never needs to acquire a fee token or reason about gas.
+3. **Remove the fee barrier.** Gas fees are a UX tax on onboarding. Lumen has no gas market at all; spam resistance is handled by a small fixed fee per transfer instead, so a user never needs to estimate gas or reason about fee markets.
 4. **Assume a post-quantum future.** Signature schemes are an infrastructure decision with a long tail. Lumen requires post-quantum signatures at the protocol level rather than deferring the migration.
 5. **Decentralize governance from the start.** Founder voting power is 0%; network parameters are set by the validator set through on-chain governance.
 
@@ -141,17 +141,19 @@ Lumen's network constants are defined by configuration and genesis, not by marke
 
 `timeout_commit` is configured at 4 seconds, but observed cadence including consensus round-trip is closer to 5.15 seconds. All time-denominated projections in this document use the observed figure.
 
-### 5.3 Fee Model: No Gas, Flat Transfer Tax
+### 5.3 Fee Model: No Gas, Fixed Message Fees
 
 Lumen has **no gas market**. `block.max_gas` is set to `-1`, nodes run with `--minimum-gas-prices 0ulmn`, and transactions must carry an explicit zero fee (`--fees="0ulmn"`). Non-zero minimum gas price configurations are rejected outright.
 
 This removes the most common onboarding failure — a user holding an asset but unable to move it for lack of a separate fee token — and makes gasless application flows the default rather than a subsidized special case.
 
-Spam resistance does not disappear with the gas market; it moves to a simpler mechanism. The `x/tokenomics` module applies a flat **1% transfer tax** (`tx_tax_rate`) to eligible transfers through an ante handler, alongside a dust guard (`min_send_ulmn`, default `1000 ulmn`) that blocks economically meaningless transfers used to inflate transaction counts.
+Spam resistance does not disappear with the gas market; it moves to a simpler mechanism. The `x/tokenomics` module charges a small **fixed fee per message** through an ante handler: `transfer_fee_ulmn` (currently **1000 ulmn**, i.e. 0.001 LMN) on `MsgSend`, on each output of `MsgMultiSend` and on IBC `MsgTransfer`, with matching fees on delegation, redelegation and withdraw-address changes. A dust guard (`min_send_ulmn`, `1000 ulmn`) blocks economically meaningless transfers used to inflate transaction counts. The former percentage transfer tax (`tx_tax_rate`) is set to 0.
 
-The distinction matters: gas prices make cost unpredictable and require users to hold a specific token in a specific amount before acting. A percentage tax on the amount transferred is proportional, predictable, and self-denominated — a user moving 100 LMN pays 1 LMN, and never needs to think about it in advance.
+The fee is paid by the signer on top of the amount sent and routed to the **community pool**, never to the fee collector: paying block producers out of anti-spam revenue would give them a stake in the spam.
 
-Both `tx_tax_rate` and `min_send_ulmn` are adjustable by on-chain governance through `MsgUpdateParams`, so the network can tune spam resistance without a chain upgrade.
+The distinction matters: gas prices make cost unpredictable and require users to estimate a fee before acting. A fixed fee is flat and predictable — moving 10 LMN or 10,000 LMN costs the same 0.001 LMN — and it prices what a transfer actually consumes, a block slot and a state write, rather than the value being moved.
+
+Every fee and `min_send_ulmn` are adjustable by on-chain governance (from 0 up to a 10 LMN ceiling for the transfer fee), so the network can tune spam resistance without a chain upgrade.
 
 ### 5.4 Cryptography
 
@@ -238,14 +240,9 @@ At the observed ~5.15-second block time, current issuance is approximately **16,
 
 ### 6.4 Validator Revenue
 
-Validators are not compensated by a gas market, because there isn't one. Two flows fund them instead:
+Validators are not compensated by a gas market, because there isn't one. They are funded by **block emission** — the per-block reward described above — distributed through the Cosmos distribution module on a `distribution_interval_blocks` cadence (every 10 blocks by default).
 
-1. **Block emission** — the per-block reward described above.
-2. **Transfer tax** — the 1% `tx_tax_rate` is deposited into the fee collector account and distributed to validators through the Cosmos distribution module, on a `distribution_interval_blocks` cadence (every 10 blocks by default).
-
-A 2% community tax is withheld from distribution and routed to the community pool for governance-directed spending.
-
-This gives validator economics a second revenue source tied to network usage rather than to emission alone — which matters increasingly as the halving schedule reduces block rewards over time.
+A 2% community tax is withheld from distribution and routed to the community pool for governance-directed spending. Fixed message fees (Section 5.3) also flow to the community pool rather than to validators, so anti-spam revenue is spent by DAO vote instead of rewarding block producers for the traffic they include.
 
 ---
 
@@ -280,7 +277,7 @@ These thresholds are deliberately strict. A 67% quorum and 75% pass threshold me
 
 ### 7.3 Scope and Limits of Governance
 
-Governance is deliberately bounded. The governed-parameters diagram above enumerates what the DAO controls — staking and distribution settings, the transfer tax and dust guard, domain and routing parameters, and community pool spending.
+Governance is deliberately bounded. The governed-parameters diagram above enumerates what the DAO controls — staking and distribution settings, the fixed message fees and dust guard, domain and routing parameters, and community pool spending.
 
 Note that gateway pricing is *not* on this list. As described in Section 4.2, operators set their own rates; governance does not fix the price of storage.
 
@@ -288,7 +285,7 @@ What governance **cannot** touch is equally important:
 
 | Governable | Genesis-locked |
 | --- | --- |
-| `tx_tax_rate` | `initial_reward_per_block_lumn` |
+| `transfer_fee_ulmn` and other message fees | `initial_reward_per_block_lumn` |
 | `min_send_ulmn` | `halving_interval_blocks` |
 | `distribution_interval_blocks` | `supply_cap_lumn` |
 | Staking, distribution, gov params | `denom`, `decimals` |
