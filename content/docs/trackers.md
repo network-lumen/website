@@ -36,11 +36,12 @@ Questions or corrections: **contact@lumen-browser.com**. Any request about LMN l
 
 ## Logo & Brand Assets
 
-| Asset | Link |
+| Size | Link |
 | --- | --- |
-| Logo (PNG) | https://lumen-browser.com/logo.png |
-| Logo (SVG) | https://lumen-browser.com/logo.svg |
-| Favicon (SVG) | https://lumen-browser.com/favicon.svg |
+| 200 × 200 | https://lumen-browser.com/logo_200x200.png |
+| 400 × 400 | https://lumen-browser.com/logo_400x400.png |
+| 500 × 500 | https://lumen-browser.com/logo_500x500.png |
+| 512 × 512 | https://lumen-browser.com/logo.png |
 
 ## Descriptions
 
