@@ -29,7 +29,14 @@ const dexVenues: Venue[] = [
   },
 ]
 
-const cexVenues: Venue[] = []
+const cexVenues: Venue[] = [
+  {
+    name: 'Tokpie',
+    description: 'LMN/USDT, buy by card',
+    href: 'https://tokpie.com/view_exchange/lmn-usdt/',
+    logo: '/venues/tokpie.png',
+  },
+]
 
 const navigation: NavItem[] = [
   { title: 'Docs', href: '/docs' },
@@ -312,10 +319,32 @@ export default function Header() {
                     <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">With CB</span>
                     <span className="h-px flex-1 bg-slate-800"></span>
                   </div>
-                  <div className="px-3 py-3 rounded-lg border border-dashed border-slate-700 bg-slate-800/30 text-center">
-                    <p className="text-xs font-bold text-slate-400">Coming soon</p>
-                    <p className="mt-0.5 text-[11px] text-slate-500">No centralized listing yet</p>
-                  </div>
+                  {cexVenues.length > 0 ? (
+                    cexVenues.map((venue) => (
+                      <a
+                        key={venue.name}
+                        href={venue.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-3 px-2 py-2.5 rounded-lg hover:bg-slate-800 transition-colors"
+                      >
+                        <img src={venue.logo} alt="" className="h-9 w-9 flex-shrink-0 rounded-lg object-contain" />
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-bold text-white">{venue.name}</span>
+                          <span className="block text-xs text-slate-400">{venue.description}</span>
+                        </span>
+                        <svg className="w-3.5 h-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    ))
+                  ) : (
+                    <div className="px-3 py-3 rounded-lg border border-dashed border-slate-700 bg-slate-800/30 text-center">
+                      <p className="text-xs font-bold text-slate-400">Coming soon</p>
+                      <p className="mt-0.5 text-[11px] text-slate-500">No centralized listing yet</p>
+                    </div>
+                  )}
 
                   <div className="flex items-center gap-2 px-2 pt-3 pb-1.5">
                     <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400">With crypto</span>
