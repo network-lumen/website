@@ -1,0 +1,52 @@
+{
+  "categories": [
+    {
+      "id": "trackers",
+      "title": "Price Trackers",
+      "description": "Market data, price and supply aggregators",
+      "items": [
+        { "name": "Blockspot", "url": "https://blockspot.io/coin/lumen-lmn/", "logo": "/listings/blockspot.png" },
+        { "name": "Coinranking", "url": "https://coinranking.com/coin/8C3Pm22Wl+lumen-lmn", "logo": "/listings/coinranking.png" },
+        { "name": "DEXTools", "url": "https://www.dextools.io/app/osmosis/pair-explorer/3416", "logo": "/listings/dextools.png", "description": "Osmosis pair" }
+      ]
+    },
+    {
+      "id": "exchanges",
+      "title": "Exchanges & DEX",
+      "description": "Where LMN can be traded",
+      "items": [
+        { "name": "Tokpie", "url": "https://tokpie.com/view_exchange/LMN-USDT/", "logo": "/venues/tokpie.png", "description": "LMN/USDT" },
+        { "name": "Osmosis", "url": "https://app.osmosis.zone/assets/ibc/88DBE57372690630D2DD9779C247479CE124E777C5D695FA90699F3140CEC59F", "logo": "/venues/osmosis.svg", "description": "IBC DEX" },
+        { "name": "BeeZee DEX", "url": "https://dex.getbze.com/exchange/market?id=ibc/693DDB2D9B4260D67C8136C22D837F37488E0FBD81857D8E9C6022332EA26E33/ibc/6490A7EAB61059BFC1CDDEB05917DD70BDF3A611654162A1A47DB930D40D8AF4", "logo": "/venues/beezee.svg", "description": "IBC order book DEX" }
+      ]
+    },
+    {
+      "id": "explorers",
+      "title": "Block Explorers",
+      "description": "Community-operated explorers for the Lumen chain",
+      "items": [
+        { "name": "ChainTools", "url": "https://explorer.chaintools.tech/lumen" },
+        { "name": "MekongLabs", "url": "https://explorer.mekonglabs.com/lumen-mainnet" },
+        { "name": "OneNov", "url": "https://explorer.onenov.xyz/lumen" },
+        { "name": "NodeGod20", "url": "https://explorer.nodegod20.cloud/lumen-mainnet" },
+        { "name": "WinScan", "url": "https://winscan.winsnip.xyz/lumen-mainnet" },
+        { "name": "Maouam", "url": "https://explorer.maouam.xyz/lumen-mainnet" },
+        { "name": "Astrostake", "url": "https://stake.astrostake.xyz/lumen" },
+        { "name": "OV Explorer", "url": "https://ov-explorer.onenov.xyz/network/lumen" },
+        { "name": "UTSA", "url": "https://explorer.utsa.tech/networks/lumen-mainnet" },
+        { "name": "Indonode", "url": "https://explorer.indonode.net/lumen/" }
+      ]
+    },
+    {
+      "id": "other",
+      "title": "Other",
+      "description": "App stores, packages and community tools",
+      "items": [
+        { "name": "Chrome Web Store", "url": "https://chromewebstore.google.com/detail/lumen-wallet/lfinoahnjndcbgjjfnaefcmpaglglbph", "description": "Lumen Wallet extension" },
+        { "name": "npm", "url": "https://www.npmjs.com/package/@lumen-chain/sdk", "description": "@lumen-chain/sdk" },
+        { "name": "Posthuman", "url": "https://nodes.posthuman.digital/chains/lumen", "description": "Chain page" },
+        { "name": "STAVR", "url": "https://tools.stavr.tech/Map/lumenm/", "description": "Decentralization map" }
+      ]
+    }
+  ]
+}

@@ -11,6 +11,8 @@ This page collects everything a price tracker, market aggregator, wallet or exch
 
 Figures marked as a snapshot were read from chain state on **October 3, 2026 (block 4,979,494)**. For live values, use the [supply endpoints](#supply-endpoints) below, which read directly from chain state.
 
+For the list of platforms where Lumen is already listed, see [Where to find Lumen](/listings).
+
 Questions or corrections: **contact@lumen-browser.com**. Any request about LMN listings comes from that address or from the official channels listed below.
 
 ## At a Glance
