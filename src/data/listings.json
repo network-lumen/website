@@ -7,6 +7,8 @@
       "items": [
         { "name": "Blockspot", "url": "https://blockspot.io/coin/lumen-lmn/", "logo": "/listings/blockspot.png" },
         { "name": "Coinranking", "url": "https://coinranking.com/coin/8C3Pm22Wl+lumen-lmn", "logo": "/listings/coinranking.png" },
+        { "name": "CoinCodex", "url": "https://coincodex.com/crypto/lumen-browser/", "logo": "/listings/coincodex.png" },
+        { "name": "CoinCheckup", "url": "https://coincheckup.com/coins/lumen-browser", "logo": "/listings/coincheckup.png" },
         { "name": "DEXTools", "url": "https://www.dextools.io/app/osmosis/pair-explorer/3416", "logo": "/listings/dextools.png", "description": "Osmosis pair" }
       ]
     },
